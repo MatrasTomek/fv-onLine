@@ -1,0 +1,7 @@
+@import "./variables.scss";
+
+@mixin wrapper {
+  position: relative;
+  width: 90vw;
+  margin: 20px auto;
+}
