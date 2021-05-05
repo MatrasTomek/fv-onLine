@@ -1,0 +1,23 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  height: 140px;
+  border-bottom: 2px solid $fifth-color;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  .title {
+  }
+
+  .options {
+    flex-basis: 50%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    button {
+      @include mediumButton;
+    }
+  }
+}

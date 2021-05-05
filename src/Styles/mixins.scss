@@ -5,3 +5,33 @@
   width: 90vw;
   margin: 20px auto;
 }
+
+@mixin smallButton {
+  width: 60px;
+  padding: 2px 10px;
+  font-size: $xs-fs;
+  background-color: $basic-color;
+  color: $fourth-color;
+  border: none;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.4s;
+  &:hover {
+    background-color: $fifth-color;
+  }
+}
+@mixin mediumButton {
+  width: 80px;
+  padding: 5px 10px;
+  font-size: $s-fs;
+  background-color: $fourth-color;
+  color: $text-second-color;
+  border: 1px solid $text-second-color;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.4s;
+  &:hover {
+    background-color: $fifth-color;
+    color: $fourth-color;
+  }
+}
