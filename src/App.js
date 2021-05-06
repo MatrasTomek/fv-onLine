@@ -1,8 +1,8 @@
 import { HashRouter as Router } from "react-router-dom";
 import { Fragment } from "react";
-import Spinner from "./components/Spinner/Spinner";
-import Header from "./vievs/Header/Header";
-import MainSwitch from "./components/MainSwitch/MainSwitch";
+import { Spinner, MainSwitch } from "./components";
+import { Header } from "./vievs";
+
 import React from "react";
 
 function App() {
