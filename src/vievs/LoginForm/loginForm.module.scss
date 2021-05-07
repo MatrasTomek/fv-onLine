@@ -1,0 +1,41 @@
+@import "../../Styles/common.scss";
+
+.wrapper {
+  position: relative;
+  width: 50vw;
+  .infromation {
+    color: $text-warring-color;
+    text-align: center;
+    font-weight: 700;
+  }
+  .form {
+    ::placeholder {
+      color: $first-color;
+      font-weight: 700;
+    }
+    .login,
+    .password {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px auto;
+    }
+    .input {
+      // @include inputViev;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+
+      margin: 20px auto;
+    }
+  }
+  .spinnerWrapper {
+    //   @include spinnerWrapper;
+  }
+  @media screen and (orientation: landscape) {
+    width: 30vw;
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    width: 20vw;
+  }
+}
