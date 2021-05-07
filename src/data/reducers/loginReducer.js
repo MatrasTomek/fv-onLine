@@ -1,6 +1,6 @@
 import { LOGIN_POST } from "../actions";
 
-const loginReducer = (state = [], action) => {
+export const loginReducer = (state = [], action) => {
   switch (action.type) {
     case LOGIN_POST:
       return [...state, action.payload];
