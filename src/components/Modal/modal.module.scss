@@ -1,0 +1,27 @@
+@import "../../Styles/common.scss";
+.modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  backdrop-filter: blur(2px);
+  .wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    z-index: 20;
+    border: none;
+    border: 1px solid $fifth-color;
+    background-color: #c9cfd3;
+    color: white;
+    border-radius: 5px;
+    @media screen and (orientation: landscape) {
+      padding: 35px 30px;
+    }
+  }
+}
