@@ -4,8 +4,16 @@ export const ADD_CLIENT = "ADD_CLIENT";
 export const DELETE_CLIENT = "DELETE_CLIENT";
 export const EDIT_CLIENT = "EDIT_CLIENT";
 
-const getAllClients = ({ name, adress, vat, id }) => ({
+// companyAdress,
+// companyName,
+// eMail,
+// vatNo,
+// _id,
+// info,
+
+export const getAllClients = (data) => ({
   type: GET_ALL_CLIENTS,
+  payload: data,
 });
 
 const deleteClient = (id) => ({
