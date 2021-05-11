@@ -1,11 +1,16 @@
 import { COOKIE_SET, COOKIE_DELETE } from "../actions";
 
-export const cookieReducer = (state = [], action) => {
+const initialState = {
+  isCookie: false,
+};
+
+export const cookieReducer = (state = [initialState], action) => {
+  console.log(state[0]);
   switch (action.type) {
     case COOKIE_SET:
-      return [...state, action.payload];
+      return [{ isCookie: action.isCookie }];
     case COOKIE_DELETE:
-      return [...state, action.payload];
+      return [{ isCookie: action.isCookie }];
     default:
       console.warn(`Nie ma akcji typu ${action.type}`);
       return state;

@@ -1,4 +1,7 @@
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { cookieSet } from "../../data/actions/cookieAction";
+import { checkCookie } from "../../helpers/session";
 
 import WelcomeSite from "../WelcomeSite";
 import LoggedMenu from "../LoggedMenu";
@@ -6,11 +9,26 @@ import LoggedMenu from "../LoggedMenu";
 import styles from "./mainSection.module.scss";
 
 function MainSection() {
-  const login = useSelector((store) => store.login);
-  const cookie = useSelector((store) => store.cookie);
+  const dispatch = useDispatch();
 
-  const mainViev =
-    login.length || cookie.length ? <LoggedMenu /> : <WelcomeSite />;
+  const [cookieInfo, setCookieInfo] = useState(false);
+
+  useEffect(() => {
+    setCookieInfo(checkCookie());
+  }, []);
+
+  useEffect(() => {
+    if (!cookieInfo) {
+      return;
+    } else {
+      dispatch(cookieSet());
+    }
+  }, [cookieInfo]);
+
+  const login = useSelector((store) => store.login[0].isLogin);
+  const cookie = useSelector((store) => store.cookie[0].isCookie);
+
+  const mainViev = login || cookie ? <LoggedMenu /> : <WelcomeSite />;
   return <div className={styles.wrapper}>{mainViev}</div>;
 }
 

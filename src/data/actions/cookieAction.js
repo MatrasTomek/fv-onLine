@@ -1,16 +1,12 @@
 export const COOKIE_SET = "COOKIE_SET";
 export const COOKIE_DELETE = "COOKIE_DELETE";
 
-export const cookieSet = ({ name }) => ({
+export const cookieSet = () => ({
   type: COOKIE_SET,
-  payload: {
-    name,
-  },
+  isCookie: true,
 });
 
-export const cookieDel = ({ name }) => ({
+export const cookieDel = () => ({
   type: COOKIE_DELETE,
-  payload: {
-    name,
-  },
+  isCookie: false,
 });

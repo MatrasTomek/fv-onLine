@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginPost, cookieSet } from "../../data/actions";
 import request from "../../helpers/request";
+import { addCookie } from "../../helpers/session";
 import { Modal, Button, Spinner } from "../../components";
 
 import styles from "./loginForm.module.scss";
@@ -27,7 +28,6 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
     event.preventDefault();
     // setShowSpinner(true);
     // obj what we need in actions
-
     const { data, status } = await request.post("/users", {
       login: login,
       password: password,
@@ -35,15 +35,9 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
     setValidateMessage(false);
     if (status === 200) {
       setShowSpinner(false);
-      const loginObj = {
-        login: data.user,
-      };
-      const cookieObj = {
-        cookie: "appFormAdmin",
-      };
-      dispatch(loginPost(loginObj));
-      dispatch(cookieSet(cookieObj));
-
+      dispatch(cookieSet());
+      dispatch(loginPost());
+      addCookie();
       setIsModalOpen(false);
     } else {
       setValidateMessage(data.message);
@@ -55,7 +49,7 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
   const validateMessageComponent = validateMessage.length ? (
     <p className={styles.validateMessage}>{validateMessage}</p>
   ) : null;
-  console.log(loginPost);
+
   return (
     <Modal isModalOpen={isModalOpen} handleOnCloseModal={handleOnCloseModal}>
       <div className={styles.wrapper}>

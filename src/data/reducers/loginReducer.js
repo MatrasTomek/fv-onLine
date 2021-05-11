@@ -1,10 +1,15 @@
-import { LOGIN_POST } from "../actions";
+import { LOGIN_POST, LOGIN_DEL } from "../actions";
 
-export const loginReducer = (state = [], action) => {
+const initialState = {
+  isLogin: false,
+};
+
+export const loginReducer = (state = [initialState], action) => {
   switch (action.type) {
     case LOGIN_POST:
-      return [...state, action.payload];
-
+      return [{ isLogin: action.isLogin }];
+    case LOGIN_DEL:
+      return [{ isLogin: action.isLogin }];
     default:
       console.warn(`Nie ma akcji typu ${action.type}`);
       return state;

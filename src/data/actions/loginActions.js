@@ -1,6 +1,12 @@
 export const LOGIN_POST = "LOGIN_POST";
+export const LOGIN_DEL = "LOGIN_DEL";
 
-export const loginPost = ({ name }) => ({
+export const loginPost = () => ({
   type: LOGIN_POST,
-  payload: name,
+  isLogin: true,
+});
+
+export const loginDel = () => ({
+  type: LOGIN_DEL,
+  isLogin: false,
 });

@@ -1,1 +1,23 @@
 @import "../../Styles/common.scss";
+
+.wrapper {
+  @include wrapper;
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    a {
+      margin: 20px auto;
+      button {
+        @include mediumButton;
+        width: 120px;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    .buttons {
+      flex-direction: row;
+    }
+  }
+}
