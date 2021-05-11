@@ -5,7 +5,6 @@ const initialState = {
 };
 
 export const cookieReducer = (state = [initialState], action) => {
-  console.log(state[0]);
   switch (action.type) {
     case COOKIE_SET:
       return [{ isCookie: action.isCookie }];
