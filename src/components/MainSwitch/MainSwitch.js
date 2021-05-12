@@ -1,8 +1,9 @@
 import { Switch, Route } from "react-router-dom";
-
-import { MainSection } from "../../vievs";
+import { useSelector } from "react-redux";
+import { MainSection, Customers } from "../../vievs";
 
 const MainSwitch = () => {
+  const cookie = useSelector((store) => store.cookie[0].isCookie);
   return (
     <>
       <Switch>
@@ -10,7 +11,13 @@ const MainSwitch = () => {
         {/* <Route exact path="/rodo" render={() => <Rodo />} /> */}
         {/* <Route exact path="/instruction" render={() => <Instruction />} /> */}
         {/* <Route exact path="/contact" render={() => <Contact />} /> */}
-        {/* <Route exact path="/test-form" render={() => <TestFormSection />} /> */}
+
+        {cookie ? (
+          <Route exact path="/customers" render={() => <Customers />} />
+        ) : (
+          ""
+        )}
+
         {/* <Route exact path="/order-print" render={() => <OrderPrintViev />} /> */}
         {/* <Route exact path="/orders" render={() => <Orders />} /> */}
       </Switch>

@@ -1,0 +1,79 @@
+@import "../../Styles/common.scss";
+
+.wrapper {
+  @include wrapper;
+
+  h1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: $l-fs;
+  }
+
+  .selectButttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    button {
+      width: 160px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .clientItem {
+    width: 95%;
+    min-height: 100px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    border-bottom: 2px solid $fifth-color;
+    .info {
+      padding: 20px;
+      color: $text-warring-color;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+  .clientsList {
+    width: 95%;
+    margin: 0 auto 140px auto;
+  }
+  //   .spinnerWrapper {
+  //     @include spinnerWrapper;
+  //   }
+  @media screen and (orientation: landscape) {
+    .selectButttons {
+      button {
+        width: 140px;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    h1 {
+      font-size: $xl-fs;
+    }
+    .selectButttons {
+      button {
+        width: 160px;
+      }
+    }
+    .clientItem {
+      width: 70%;
+    }
+    .clientsList {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    .selectButttons {
+      button {
+        width: 180px;
+      }
+    }
+    .clientItem {
+      width: 90%;
+    }
+  }
+}
