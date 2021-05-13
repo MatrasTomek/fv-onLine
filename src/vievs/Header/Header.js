@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "../../components";
 import { LoginForm } from "../../vievs";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +14,8 @@ const Header = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const history = useHistory();
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -21,6 +24,7 @@ const Header = () => {
     deleteCoockie("appFormAdmin");
     dispatch(cookieDel());
     dispatch(loginDel());
+    history.push("./");
   };
 
   const logOnLogOffButton = !cookie ? (

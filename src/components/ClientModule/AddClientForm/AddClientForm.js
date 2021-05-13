@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { useDispatch } from "react-redux";
-import { getAllClients } from "../../../data/actions/clientActions";
+import { getAllClients, editClient } from "../../../data/actions/clientActions";
 import Modal from "../../Modal";
 import { Button } from "../../Buttons";
 import clientRequest from "../../../helpers/clientRequest";
@@ -9,9 +9,9 @@ import styles from "./addClientForm.module.scss";
 
 const required = (value) => (value ? undefined : "Pole wymagane");
 
-const AddClientForm = ({ isModalOpen, setIsModalOpen }) => {
+const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
   const dispatch = useDispatch();
-
+  const { companyAdress, companyName, eMail, vatNo, _id, info } = client;
   const [validateMessage, setValidateMessage] = useState("");
 
   const handleOnClose = () => {
@@ -22,27 +22,54 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen }) => {
     setValidateMessage("");
   };
   const onSubmit = async (values) => {
-    const clientObject = {
-      companyName: values.companyName,
-      companyAdress: values.companyAdress,
-      vatNo: values.vatNo,
-      eMail: values.eMail,
-      info: values.info,
-    };
-    const { data, status } = await clientRequest.post("/clients", clientObject);
-    if (status === 201) {
-      handleOnClose();
-      resetStateOfInput();
-      dispatch(getAllClients([data.data]));
+    if (!client) {
+      const clientObject = {
+        companyName: values.companyName,
+        companyAdress: values.companyAdress,
+        vatNo: values.vatNo,
+        eMail: values.eMail,
+        info: !values.info ? "" : values.info,
+      };
+      const { data, status } = await clientRequest.post(
+        "/clients",
+        clientObject
+      );
+      if (status === 201) {
+        handleOnClose();
+        resetStateOfInput();
+        dispatch(getAllClients([data.data]));
 
-      // setShowSpinner(false);
-      // props.setTaskInformation("Dodano klienta");
-    } else if (status === 409) {
-      // setShowSpinner(false);
-      setValidateMessage(data.message);
-    } else {
-      // setShowSpinner(false);
-      console.log(data.message);
+        // setShowSpinner(false);
+        // props.setTaskInformation("Dodano klienta");
+      } else if (status === 409) {
+        // setShowSpinner(false);
+        setValidateMessage(data.message);
+      } else {
+        // setShowSpinner(false);
+        console.log(data.message);
+      }
+    } else if (client) {
+      const clientObject = {
+        clientId: _id,
+        companyName: !values.companyName ? companyName : values.companyName,
+        companyAdress: !values.companyAdress
+          ? companyAdress
+          : values.companyAdress,
+        vatNo: !values.vatNo ? vatNo : values.vatNo,
+        eMail: !values.eMail ? eMail : values.eMail,
+        info: !values.info ? info : values.info,
+      };
+
+      const { data, status } = await clientRequest.put(
+        "/clients",
+        clientObject
+      );
+      if (status === 202) {
+        handleOnClose();
+        dispatch(editClient(data.data));
+      } else {
+        console.log(data.message, status);
+      }
     }
   };
 
@@ -53,7 +80,11 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <Modal handleOnCloseModal={handleOnClose} isModalOpen={isModalOpen}>
       <div className={styles.wrapper}>
-        <h3>Dodawanie nowego kontrahenta</h3>
+        <h3>
+          {!client
+            ? "Dodawanie nowego kontrahenta"
+            : `Edycja kontrahenta: ${companyName}`}
+        </h3>
         <div className={styles.validateMessage}>{clientExist}</div>
         <Form
           onSubmit={onSubmit}
@@ -70,49 +101,56 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen }) => {
               }}
             >
               <div className={styles.inputs}>
-                <Field name="companyName" validate={required}>
+                <Field name="companyName" validate={!client ? required : false}>
                   {({ input, meta }) => (
                     <div>
                       <input
                         {...input}
                         type="text"
-                        placeholder="Nazwa Firmy..."
+                        placeholder={
+                          !client ? "Nazwa Firmy..." : `${client.companyName}`
+                        }
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                   )}
                 </Field>
-                <Field name="companyAdress" validate={required}>
+                <Field
+                  name="companyAdress"
+                  validate={!client ? required : false}
+                >
                   {({ input, meta }) => (
                     <div>
                       <input
                         {...input}
                         type="text"
-                        placeholder="Adres Firmy..."
+                        placeholder={
+                          !client ? "Adres Firmy..." : `${client.companyAdress}`
+                        }
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                   )}
                 </Field>
-                <Field name="vatNo" validate={required}>
+                <Field name="vatNo" validate={!client ? required : false}>
                   {({ input, meta }) => (
                     <div>
                       <input
                         {...input}
                         type="text"
-                        placeholder="Nip: PL0000000000"
+                        placeholder={!client ? "Numer Nip" : `${client.vatNo}`}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                   )}
                 </Field>
-                <Field name="eMail" validate={required}>
+                <Field name="eMail" validate={!client ? required : false}>
                   {({ input, meta }) => (
                     <div className={styles.name}>
                       <input
                         {...input}
                         type="text"
-                        placeholder="eMail: example@example.pl"
+                        placeholder={!client ? "eMail" : `${client.eMail}`}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
@@ -122,7 +160,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen }) => {
                   <Field
                     name="info"
                     component="textarea"
-                    placeholder="Info..."
+                    placeholder={!client ? "info" : `${client.info}`}
                   />
                 </div>
               </div>

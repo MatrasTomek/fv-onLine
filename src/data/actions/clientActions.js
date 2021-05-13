@@ -1,6 +1,4 @@
 export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
-export const GET_ONE_CLIENT = "GET_ONE_CLIENT";
-export const ADD_CLIENT = "ADD_CLIENT";
 export const DELETE_CLIENT = "DELETE_CLIENT";
 export const EDIT_CLIENT = "EDIT_CLIENT";
 
@@ -15,10 +13,12 @@ export const getAllClients = (data) => ({
   type: GET_ALL_CLIENTS,
   payload: data,
 });
+export const editClient = (data) => ({
+  type: EDIT_CLIENT,
+  payload: data,
+});
 
-const deleteClient = (id) => ({
+export const deleteClient = (id) => ({
   type: DELETE_CLIENT,
-  payload: {
-    id,
-  },
+  payload: id,
 });
