@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteClient } from "../../../data/actions/clientActions";
+import { deleteClient, addSpinner, removeSpinner } from "../../../data/actions";
 
 import AddClientForm from "../AddClientForm";
 import { Button } from "../../Buttons";
@@ -17,15 +17,17 @@ const ClientItem = ({ client }) => {
   };
 
   const handleOnDelete = async () => {
+    dispatch(addSpinner());
     try {
       const { status } = await clientRequest.delete(`/clients/${_id}`);
 
       if (status === 200) {
         dispatch(deleteClient(_id));
-
+        dispatch(removeSpinner());
         // setTaskInformation("Usunięto klienta");
       }
     } catch (error) {
+      dispatch(removeSpinner());
       console.warn("cos nie taK");
     }
   };

@@ -30,6 +30,7 @@ function App() {
       <Fragment>
         <MainSwitch />
       </Fragment>
+      <Spinner />
     </Router>
   );
 }

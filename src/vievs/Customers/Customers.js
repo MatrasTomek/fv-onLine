@@ -1,11 +1,16 @@
 import { useState } from "react";
 import clientRequest from "../../helpers/clientRequest";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllClients } from "../../data/actions/clientActions";
-import { ClientItem, SearchModal } from "../../components";
+import { getAllClients, addSpinner, removeSpinner } from "../../data/actions/";
 
-import { AddClientForm } from "../../components/ClientModule";
-import { Button, BackButton } from "../../components";
+import {
+  AddClientForm,
+  BackButton,
+  Button,
+  ClientItem,
+  SearchModal,
+} from "../../components";
+
 import styles from "./customers.module.scss";
 
 const Customers = () => {
@@ -21,10 +26,12 @@ const Customers = () => {
   };
 
   const handleGetAllClients = async () => {
+    dispatch(addSpinner());
     const { data, status } = await clientRequest.get("/clients");
 
     if (status === 200) {
       dispatch(getAllClients(data.data));
+      dispatch(removeSpinner());
     } else {
       console.log(data.message);
     }

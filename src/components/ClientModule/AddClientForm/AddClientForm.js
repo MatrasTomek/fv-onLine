@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { useDispatch } from "react-redux";
-import { getAllClients, editClient } from "../../../data/actions/clientActions";
-import Modal from "../../Modal";
-import { Button } from "../../Buttons";
+import {
+  getAllClients,
+  editClient,
+  addSpinner,
+  removeSpinner,
+} from "../../../data/actions";
 import clientRequest from "../../../helpers/clientRequest";
+
+import { Button, Modal } from "../../../components";
 import styles from "./addClientForm.module.scss";
 
 const required = (value) => (value ? undefined : "Pole wymagane");
 
 const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
   const dispatch = useDispatch();
+
   const { companyAdress, companyName, eMail, vatNo, _id, info } = client;
   const [validateMessage, setValidateMessage] = useState("");
 
@@ -22,6 +28,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
     setValidateMessage("");
   };
   const onSubmit = async (values) => {
+    dispatch(addSpinner());
     if (!client) {
       const clientObject = {
         companyName: values.companyName,
@@ -38,14 +45,13 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         handleOnClose();
         resetStateOfInput();
         dispatch(getAllClients([data.data]));
-
-        // setShowSpinner(false);
+        dispatch(removeSpinner());
         // props.setTaskInformation("Dodano klienta");
       } else if (status === 409) {
-        // setShowSpinner(false);
+        dispatch(removeSpinner());
         setValidateMessage(data.message);
       } else {
-        // setShowSpinner(false);
+        dispatch(removeSpinner());
         console.log(data.message);
       }
     } else if (client) {
@@ -67,8 +73,10 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
       if (status === 202) {
         handleOnClose();
         dispatch(editClient(data.data));
+        dispatch(removeSpinner());
       } else {
         console.log(data.message, status);
+        dispatch(removeSpinner());
       }
     }
   };
@@ -181,7 +189,6 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
           )}
         />
       </div>
-      {/* <div className={styles.spinnerWrapper}>{spinner}</div> */}
     </Modal>
   );
 };

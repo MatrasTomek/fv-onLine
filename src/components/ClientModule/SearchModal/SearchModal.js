@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAllClients } from "../../../data/actions/clientActions";
+import {
+  getAllClients,
+  addSpinner,
+  removeSpinner,
+} from "../../../data/actions";
 import Modal from "../../Modal";
 import { Button } from "../../Buttons";
 
@@ -34,7 +38,7 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
   // get client by vat
   const handleOnSubmitByVat = async (event) => {
     event.preventDefault();
-    // setShowSpinner(true);
+    dispatch(addSpinner());
 
     const { data, status } = await clientRequest.get(`/clients/${vatNo}`);
 
@@ -42,14 +46,16 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
       dispatch(getAllClients(data.client));
       resetStateOfInput();
       setIsModalOpen(false);
+      dispatch(removeSpinner());
     } else {
       setValidateMessage(data.message);
+      dispatch(removeSpinner());
     }
   };
   //  get client by name
   const handleOnSubmitByName = async (event) => {
     event.preventDefault();
-    // setShowSpinner(true);
+    dispatch(addSpinner());
 
     const { data, status } = await clientRequest.get(
       `/clients/name/${companyName}`
@@ -59,8 +65,10 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
       dispatch(getAllClients(data.client));
       resetStateOfInput();
       setIsModalOpen(false);
+      dispatch(removeSpinner());
     } else {
       setValidateMessage(data.message);
+      dispatch(removeSpinner());
     }
   };
   useEffect(() => {
