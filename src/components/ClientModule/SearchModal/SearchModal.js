@@ -84,7 +84,7 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <Modal isModalOpen={isModalOpen} handleOnCloseModal={handleOnCloseModal}>
       <div className={styles.wrapper}>
-        <div className={styles.infromation}>{validateMessageComponent}</div>
+        <div>{validateMessageComponent}</div>
         <form
           className={styles.form}
           method="get"
@@ -100,7 +100,7 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
           </div>
 
           <div className={styles.buttons}>
-            <Button type="submit" name="wyszukaj" />
+            <Button type="submit" name="szukaj" />
           </div>
         </form>
         <form
@@ -118,7 +118,7 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
           </div>
 
           <div className={styles.buttons}>
-            <Button type="submit" name="wyszukaj" />
+            <Button type="submit" name="szukaj" />
             <Button type="button" onClick={handleOnCloseModal} name="wyjdź" />
           </div>
         </form>

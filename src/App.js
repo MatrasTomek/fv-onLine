@@ -23,7 +23,7 @@ function App() {
     } else {
       dispatch(cookieSet());
     }
-  }, [cookieInfo]);
+  }, [cookieInfo, dispatch]);
   return (
     <Router>
       <Header />

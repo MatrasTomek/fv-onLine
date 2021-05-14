@@ -82,7 +82,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
   };
 
   const clientExist = validateMessage.length ? (
-    <h2>{validateMessage}</h2>
+    <p className={styles.validateMessage}>{validateMessage}</p>
   ) : null;
 
   return (
@@ -93,7 +93,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
             ? "Dodawanie nowego kontrahenta"
             : `Edycja kontrahenta: ${companyName}`}
         </h3>
-        <div className={styles.validateMessage}>{clientExist}</div>
+        <div>{clientExist}</div>
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (

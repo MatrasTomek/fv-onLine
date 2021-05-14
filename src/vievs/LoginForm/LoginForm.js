@@ -1,9 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginPost, cookieSet } from "../../data/actions";
+import {
+  loginPost,
+  cookieSet,
+  addSpinner,
+  removeSpinner,
+} from "../../data/actions";
 import request from "../../helpers/request";
 import { addCookie } from "../../helpers/session";
-import { Modal, Button, Spinner } from "../../components";
+import { Modal, Button } from "../../components";
 
 import styles from "./loginForm.module.scss";
 
@@ -13,7 +18,6 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [validateMessage, setValidateMessage] = useState("");
-  const [showSpinner, setShowSpinner] = useState(false);
 
   // const spinner = showSpinner ? <Spinner /> : "";
 
@@ -26,7 +30,7 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    // setShowSpinner(true);
+    dispatch(addSpinner());
     // obj what we need in actions
     const { data, status } = await request.post("/users", {
       login: login,
@@ -34,14 +38,14 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
     });
     setValidateMessage(false);
     if (status === 200) {
-      setShowSpinner(false);
       dispatch(cookieSet());
       dispatch(loginPost());
       addCookie();
       setIsModalOpen(false);
+      dispatch(removeSpinner());
     } else {
       setValidateMessage(data.message);
-      setShowSpinner(false);
+      dispatch(removeSpinner());
       console.log(data.message);
     }
   };

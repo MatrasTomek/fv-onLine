@@ -46,6 +46,7 @@ const Customers = () => {
     <div className={styles.wrapper}>
       <h1>Moduł klienta</h1>
       <div className={styles.selectButttons}>
+        <BackButton />
         <Button name="dodaj kontrahenta" onClick={handleFromModalOpen} />
         <AddClientForm
           isModalOpen={formModalOpen}
@@ -60,17 +61,13 @@ const Customers = () => {
           name={!clients.length ? "pobierz wszystko" : "odśwież listę"}
           onClick={handleGetAllClients}
         />
-        <BackButton />
       </div>
-      {/* <div className={styles.spinnerWrapper}> {spinner}</div> */}
+
       <div className={styles.informationPopup}>
         {/* <InformationPopup taskInformation={taskInformation} /> */}
       </div>
-      {/* <div className={styles.clientItem}>{serchClientInfo}</div> */}
-      <div className={styles.clientsList}>
-        {/* {!serchClientInfo ? clientsInfo : ""} */}
-        {allClientsViev}
-      </div>
+
+      <div className={styles.clientsList}>{allClientsViev}</div>
     </div>
   );
 };

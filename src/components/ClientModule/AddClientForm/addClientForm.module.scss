@@ -1,1 +1,71 @@
 @import "../../../Styles/common.scss";
+.wrapper {
+  width: 240px;
+  h3 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: $fifth-color;
+    font-size: $s-fs;
+  }
+  .validateMessage {
+    @include validateMessage;
+  }
+  .form {
+    ::placeholder {
+      font-weight: normal;
+    }
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+
+      div {
+        width: 220px;
+        margin-bottom: 10px;
+        input,
+        textarea {
+          @include inputViev;
+        }
+        span {
+          color: $text-warring-color;
+        }
+      }
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      button {
+        @include smallButton;
+      }
+    }
+  }
+  @media screen and (orientation: landscape) {
+    width: 500px;
+    height: 280px;
+    .form {
+      .inputs {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        div {
+          flex-basis: 45%;
+        }
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    height: 500px;
+    width: 400px;
+    .form {
+      .inputs {
+        flex-direction: column;
+        div {
+          width: 300px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}

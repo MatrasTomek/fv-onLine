@@ -11,7 +11,7 @@
   .form {
     ::placeholder {
       color: $first-color;
-      font-weight: 700;
+      font-weight: normal;
     }
     .login,
     .password {
@@ -20,18 +20,18 @@
       margin: 20px auto;
     }
     .input {
-      // @include inputViev;
+      @include inputViev;
     }
     .buttons {
       display: flex;
       justify-content: space-around;
-
       margin: 20px auto;
+      button {
+        @include modalButton;
+      }
     }
   }
-  .spinnerWrapper {
-    //   @include spinnerWrapper;
-  }
+
   @media screen and (orientation: landscape) {
     width: 30vw;
   }

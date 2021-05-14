@@ -5,7 +5,7 @@
 
   h1 {
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
     margin: 0 auto;
     text-align: center;
     font-size: $l-fs;
@@ -17,36 +17,37 @@
     flex-wrap: wrap;
     align-items: center;
     button {
+      @include smallButton;
       width: 160px;
-      margin-bottom: 10px;
+      margin: 10px;
+    }
+    button:nth-child(1) {
+      background-color: transparent;
+      color: $text-second-color;
+      border: 1px solid $text-second-color;
+      font-weight: 700;
+      &:hover {
+        background-color: $text-second-color;
+        color: $fourth-color;
+      }
     }
   }
 
-  .clientItem {
-    width: 95%;
-    min-height: 100px;
-    margin: 0 auto;
-    margin-bottom: 30px;
-    border-bottom: 2px solid $fifth-color;
-    .info {
-      padding: 20px;
-      color: $text-warring-color;
-      font-weight: 700;
-      text-align: center;
-    }
-  }
   .clientsList {
-    width: 95%;
-    margin: 0 auto 140px auto;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  //   .spinnerWrapper {
-  //     @include spinnerWrapper;
-  //   }
+
   @media screen and (orientation: landscape) {
     .selectButttons {
       button {
         width: 140px;
       }
+    }
+    .clientsList {
+      justify-content: space-around;
     }
   }
   @media screen and (min-width: map-get($breakpoints, medium)) {
@@ -57,13 +58,6 @@
       button {
         width: 160px;
       }
-    }
-    .clientItem {
-      width: 70%;
-    }
-    .clientsList {
-      display: flex;
-      flex-wrap: wrap;
     }
   }
   @media screen and (min-width: map-get($breakpoints, large)) {

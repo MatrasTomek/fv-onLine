@@ -33,12 +33,25 @@ const ClientItem = ({ client }) => {
   };
 
   return (
-    <div className={styles.wrpper}>
+    <div className={styles.wrapper}>
       <h3>{companyName}</h3>
-      <p>{companyAdress}</p>
-      <p>{vatNo}</p>
-      <p>{eMail}</p>
-      <p>{info}</p>
+      <div className={styles.item}>
+        <p>adres:</p>
+        <p>{companyAdress}</p>
+      </div>
+      <div className={styles.item}>
+        <p>Nip:</p>
+        <p>{vatNo}</p>
+      </div>
+      <div className={styles.item}>
+        <p>eMail:</p>
+        <p>{eMail}</p>
+      </div>
+      <div className={styles.item}>
+        <p>info:</p>
+        <p>{info}</p>
+      </div>
+
       <div className={styles.buttons}>
         <Button name="edytuj" onClick={handleOnEdit} />
         <Button name="usuń" onClick={handleOnDelete} />
