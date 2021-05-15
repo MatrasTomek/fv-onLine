@@ -1,0 +1,16 @@
+@import "../../Styles/common.scss";
+
+.wrapper {
+  p {
+    margin-bottom: 30px;
+    color: $text-warring-color;
+    font-weight: 700;
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    button {
+      @include smallButton;
+    }
+  }
+}
