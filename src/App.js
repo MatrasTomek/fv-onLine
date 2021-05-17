@@ -4,7 +4,7 @@ import { cookieSet } from "./data/actions/cookieAction";
 import { checkCookie } from "./helpers/session";
 import { HashRouter as Router } from "react-router-dom";
 import { Fragment } from "react";
-import { Spinner, MainSwitch } from "./components";
+import { Spinner, MainSwitch, TaskInformation } from "./components";
 import { Header } from "./vievs";
 
 import React from "react";
@@ -31,6 +31,7 @@ function App() {
         <MainSwitch />
       </Fragment>
       <Spinner />
+      <TaskInformation />
     </Router>
   );
 }

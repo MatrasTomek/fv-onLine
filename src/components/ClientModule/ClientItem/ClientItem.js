@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { AddClientForm, Button, DeleteConfirmation } from "../../../components";
 
+import { AddClientForm, Button, DeleteConfirmation } from "../../../components";
 import styles from "./clientItem.module.scss";
 
 const ClientItem = ({ client }) => {
@@ -41,9 +41,9 @@ const ClientItem = ({ client }) => {
         <Button name="usuń" onClick={handleDeleteConfirmation} />
       </div>
       <AddClientForm
+        client={client}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        client={client}
       />
       <DeleteConfirmation
         isModalOpen={isConfirmationOpen}

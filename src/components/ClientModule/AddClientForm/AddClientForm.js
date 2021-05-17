@@ -6,6 +6,7 @@ import {
   editClient,
   addSpinner,
   removeSpinner,
+  timeoutShowTask,
 } from "../../../data/actions";
 import clientRequest from "../../../helpers/clientRequest";
 
@@ -46,7 +47,8 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         resetStateOfInput();
         dispatch(getAllClients([data.data]));
         dispatch(removeSpinner());
-        // props.setTaskInformation("Dodano klienta");
+        setIsModalOpen(false);
+        dispatch(timeoutShowTask("Klient dodany"));
       } else if (status === 409) {
         dispatch(removeSpinner());
         setValidateMessage(data.message);
@@ -71,9 +73,10 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         clientObject
       );
       if (status === 202) {
-        handleOnClose();
         dispatch(editClient(data.data));
+        setIsModalOpen(false);
         dispatch(removeSpinner());
+        dispatch(timeoutShowTask("Dane klienta zmienione"));
       } else {
         console.log(data.message, status);
         dispatch(removeSpinner());
@@ -86,7 +89,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
   ) : null;
 
   return (
-    <Modal handleOnCloseModal={handleOnClose} isModalOpen={isModalOpen}>
+    <Modal isModalOpen={isModalOpen}>
       <div className={styles.wrapper}>
         <h3>
           {!client
@@ -182,12 +185,11 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
                 >
                   reset
                 </button>
-
-                <Button type="button" onClick={handleOnClose} name="wyjdź" />
               </div>
             </form>
           )}
         />
+        <Button type="button" onClick={handleOnClose} name="wyjdź" />
       </div>
     </Modal>
   );

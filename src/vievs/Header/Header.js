@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { loginDel, cookieDel, openModal } from "../../data/actions";
+import { deleteCoockie } from "../../helpers/session";
+
 import { Button } from "../../components";
 import { LoginForm } from "../../vievs";
-import { useSelector, useDispatch } from "react-redux";
-import { cookieDel } from "../../data/actions/cookieAction";
-import { loginDel } from "../../data/actions/loginActions";
-import { deleteCoockie } from "../../helpers/session";
 import styles from "./header.module.scss";
 
 const Header = () => {
@@ -14,11 +14,11 @@ const Header = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const history = useHistory();
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+
+  const history = useHistory();
 
   const handleLogOff = () => {
     deleteCoockie("appFormAdmin");

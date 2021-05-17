@@ -1,5 +1,10 @@
 import { useDispatch } from "react-redux";
-import { addSpinner, removeSpinner, deleteClient } from "../../data/actions";
+import {
+  addSpinner,
+  removeSpinner,
+  deleteClient,
+  timeoutShowTask,
+} from "../../data/actions";
 import clientRequest from "../../helpers/clientRequest";
 
 import { Button, Modal } from "..";
@@ -16,7 +21,7 @@ const DeleteConfirmation = ({ isModalOpen, setIsModalOpen, id }) => {
       if (status === 200) {
         dispatch(deleteClient(id));
         dispatch(removeSpinner());
-        // setTaskInformation("Usunięto klienta");
+        dispatch(timeoutShowTask("Usunięto klięnta"));
       }
     } catch (error) {
       dispatch(removeSpinner());

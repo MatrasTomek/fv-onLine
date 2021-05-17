@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+
 import styles from "./modal.module.scss";
 
 function Modal({ children, isModalOpen, handleOnCloseModal }) {

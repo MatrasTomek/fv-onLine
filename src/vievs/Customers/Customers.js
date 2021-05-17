@@ -9,14 +9,16 @@ import {
   Button,
   ClientItem,
   SearchModal,
+  TaskInformation,
 } from "../../components";
 
 import styles from "./customers.module.scss";
 
 const Customers = () => {
   const dispatch = useDispatch();
-  const [formModalOpen, setFormModalOpen] = useState(false);
+
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [formModalOpen, setFormModalOpen] = useState(false);
 
   const handleFromModalOpen = () => {
     setFormModalOpen(true);
@@ -64,7 +66,7 @@ const Customers = () => {
       </div>
 
       <div className={styles.informationPopup}>
-        {/* <InformationPopup taskInformation={taskInformation} /> */}
+        <TaskInformation />
       </div>
 
       <div className={styles.clientsList}>{allClientsViev}</div>
