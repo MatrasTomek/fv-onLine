@@ -6,7 +6,6 @@ import {
   cookieSet,
   addSpinner,
   removeSpinner,
-  handleCloseModal,
 } from "../../data/actions";
 import request from "../../helpers/request";
 import { addCookie } from "../../helpers/session";

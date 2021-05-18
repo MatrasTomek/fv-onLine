@@ -185,11 +185,11 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
                 >
                   reset
                 </button>
+                <Button type="button" onClick={handleOnClose} name="wyjdź" />
               </div>
             </form>
           )}
         />
-        <Button type="button" onClick={handleOnClose} name="wyjdź" />
       </div>
     </Modal>
   );

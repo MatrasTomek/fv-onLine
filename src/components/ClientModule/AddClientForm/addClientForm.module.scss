@@ -41,6 +41,13 @@
       }
     }
   }
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    button {
+      @include smallButton;
+    }
+  }
   @media screen and (orientation: landscape) {
     width: 500px;
     height: 280px;

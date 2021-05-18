@@ -6,7 +6,6 @@ const initialState = {
 };
 
 export const taskReducer = (state = [initialState], action) => {
-  console.log(action);
   switch (action.type) {
     case OPEN_TASK:
       return [{ isModalOpen: action.isModalOpen, task: action.task }];

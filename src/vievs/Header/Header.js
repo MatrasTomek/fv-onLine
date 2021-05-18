@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { loginDel, cookieDel, openModal } from "../../data/actions";
+import { loginDel, cookieDel } from "../../data/actions";
 import { deleteCoockie } from "../../helpers/session";
 
 import { Button } from "../../components";
