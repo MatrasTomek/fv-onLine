@@ -1,0 +1,25 @@
+@import "../../../Styles/common.scss";
+
+.wrapper {
+  .validateMessage {
+    @include validateMessage;
+  }
+  .form {
+    ::placeholder {
+      font-weight: normal;
+    }
+    .search {
+      input {
+        @include inputViev;
+      }
+    }
+    .buttons {
+      margin: 20px auto;
+      display: flex;
+      justify-content: space-around;
+      button {
+        @include modalButton;
+      }
+    }
+  }
+}

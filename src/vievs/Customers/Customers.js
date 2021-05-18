@@ -9,7 +9,6 @@ import {
   Button,
   ClientItem,
   SearchModal,
-  TaskInformation,
 } from "../../components";
 
 import styles from "./customers.module.scss";
@@ -40,6 +39,7 @@ const Customers = () => {
   };
 
   const clients = useSelector((store) => store.clients);
+
   const allClientsViev = clients.map((client) => (
     <ClientItem key={client._id} client={client} />
   ));
@@ -63,10 +63,6 @@ const Customers = () => {
           name={!clients.length ? "pobierz wszystko" : "odśwież listę"}
           onClick={handleGetAllClients}
         />
-      </div>
-
-      <div className={styles.informationPopup}>
-        <TaskInformation />
       </div>
 
       <div className={styles.clientsList}>{allClientsViev}</div>
