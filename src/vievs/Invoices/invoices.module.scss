@@ -1,0 +1,76 @@
+@import "../../Styles/common.scss";
+
+.wrapper {
+  @include wrapper;
+
+  h1 {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: $l-fs;
+  }
+
+  .selectButttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    button,
+    a > button {
+      @include smallButton;
+      width: 160px;
+      margin: 10px;
+    }
+    .backButton button {
+      background-color: transparent;
+      color: $text-second-color;
+      border: 1px solid $text-second-color;
+      font-weight: 700;
+      &:hover {
+        background-color: $text-second-color;
+        color: $fourth-color;
+      }
+    }
+  }
+
+  .invoicesList {
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (orientation: landscape) {
+    .selectButttons {
+      button,
+      a > button {
+        width: 140px;
+      }
+    }
+    .invoicesList {
+      justify-content: space-around;
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    h1 {
+      font-size: $xl-fs;
+    }
+    .selectButttons {
+      button {
+        width: 160px;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    .selectButttons {
+      button,
+      a > button {
+        width: 180px;
+      }
+    }
+    .invoiceItem {
+      width: 90%;
+    }
+  }
+}
