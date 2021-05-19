@@ -1,6 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { MainSection, Customers } from "../../vievs";
+import { MainSection, Customers, Invoices } from "../../vievs";
+import { AddInvoice } from "../InvoiceModule";
 
 const MainSwitch = () => {
   const cookie = useSelector((store) => store.cookie[0].isCookie);
@@ -14,6 +15,16 @@ const MainSwitch = () => {
 
         {cookie ? (
           <Route exact path="/customers" render={() => <Customers />} />
+        ) : (
+          ""
+        )}
+        {cookie ? (
+          <Route exact path="/invoices" render={() => <Invoices />} />
+        ) : (
+          ""
+        )}
+        {cookie ? (
+          <Route exact path="/invoices/add" render={() => <AddInvoice />} />
         ) : (
           ""
         )}

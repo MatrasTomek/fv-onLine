@@ -1,0 +1,12 @@
+@import "../../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+
+  h1 {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: $l-fs;
+  }
+}
