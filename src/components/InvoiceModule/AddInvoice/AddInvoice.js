@@ -1,32 +1,41 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 import {
   addSpinner,
   removeSpinner,
+  getAllInvoices,
   timeoutShowTask,
+  getExchange,
   getDescribe,
 } from "../../../data/actions";
 import request from "../../../helpers/request";
 
 import {
   AddClientForm,
+  AddInfoForm,
   BackButton,
   Button,
+  ShowInvoice,
   SearchModal,
-  AddInfoForm,
 } from "../../../components";
 import styles from "./addInvoice.module.scss";
 
+const required = (value) => (value ? undefined : "Pole wymagane");
+
 const AddInvoice = () => {
-  const clients = useSelector((store) => store.clients[0]);
+  const clients = useSelector((store) => store.clients);
   const description = useSelector((store) => store.description);
+  const invoice = useSelector((store) => store.invoice);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [formModalOpen, setFormModalOpen] = useState(false);
   const [addDescribeModalOpen, setAddDescribeModalOpen] = useState(false);
+  const [checkModalOpen, setCheckModalOpen] = useState(false);
   const [dataFrom, setDataFrom] = useState(false);
 
   const handleFromModalOpen = () => {
@@ -42,19 +51,89 @@ const AddInvoice = () => {
     setDataFrom(e.target.id);
   };
 
-  const decsriptionOptions = description.map((item) => (
-    <option key={item._id} value={item.describeName}>
-      {item.describeName}
-    </option>
-  ));
+  const handleRefreshDescribction = async (event) => {
+    event.preventDefault();
+    dispatch(addSpinner());
+    dispatch(addSpinner());
+
+    const { data, status } = await request.get("/describe");
+    if (status === 200) {
+      dispatch(getDescribe(data.data));
+
+      dispatch(removeSpinner());
+    } else {
+      dispatch(removeSpinner());
+      console.log(data.message);
+    }
+  };
+
+  const decsriptionOptions = !description.length
+    ? ""
+    : description.map((item) => (
+        <option key={item._id} value={item.describeName}>
+          {item.describeName}
+        </option>
+      ));
 
   const onSubmit = (values) => {
-    console.log(values);
+    dispatch(addSpinner());
+    if (!clients.length) {
+      dispatch(timeoutShowTask(`dodaj nabywcę`));
+      dispatch(removeSpinner());
+      return;
+    }
+    const invoiceArray = [];
+    const invoiceObject = {
+      dateOfIssue: values.dateOfIssue,
+      dateOfSales: values.dateOfSales,
+      dateOfPayment: values.dateOfPayment,
+      description: values.description,
+      additionalDescription: values.additionalDescription,
+      netPrice: values.netPrice,
+      currency: values.currency,
+      dateOfExchange: values.dateOfExchange,
+      vat: values.vat,
+      quantity: values.quantity,
+      additionalInfo: values.additionalInfo,
+    };
+    invoiceArray.push(invoiceObject);
+
+    if (values.currency === "PLN") {
+      dispatch(getAllInvoices(invoiceArray));
+      dispatch(removeSpinner());
+      setCheckModalOpen(true);
+    } else {
+      const url = `http://api.nbp.pl/api/exchangerates/rates/A/EUR/${values.dateOfExchange}`;
+      fetch(url)
+        .then((res) => {
+          if (res.status !== 200) {
+            return { status: "404" };
+          } else return res.json();
+        })
+        .then((json) => {
+          if (json.status === "404") {
+            dispatch(removeSpinner());
+            dispatch(timeoutShowTask(`nie ma kursu waluty w podanej dacie`));
+          } else {
+            dispatch(getAllInvoices(invoiceArray));
+            dispatch(getExchange(json.rates));
+            dispatch(removeSpinner());
+            setCheckModalOpen(true);
+          }
+        })
+
+        .catch(function (e) {
+          console.log(e);
+          dispatch(removeSpinner());
+          dispatch(timeoutShowTask(`podaj datę kursu Euro`));
+        });
+    }
   };
 
   return (
     <div className={styles.wrapper}>
       <h1>Dodawanie nowej Faktury</h1>
+
       <form>
         <Button type="submit" name="pobierz dane ze zlecenia" />
         <input type="text" placeholder="podaj numer zlecenia" />
@@ -63,9 +142,9 @@ const AddInvoice = () => {
       <div className={styles.customer}>
         <h4>Nabywca:</h4>
         <div className={styles.clientItem}>
-          <p>{!clients ? "" : clients.companyName}</p>
-          <p>{!clients ? "" : clients.companyAdress}</p>
-          <p>{!clients ? "" : clients.vatNo}</p>
+          <p>{!clients.length ? "" : clients[0].companyName}</p>
+          <p>{!clients.length ? "" : clients[0].companyAdress}</p>
+          <p>{!clients.length ? "" : clients[0].vatNo}</p>
         </div>
         <Button name="dodaj klienta" onClick={handleFromModalOpen} />
         <AddClientForm
@@ -73,7 +152,7 @@ const AddInvoice = () => {
           setIsModalOpen={setFormModalOpen}
         />
         <Button
-          name={!clients ? "pobierz klienta" : "zmień klienta"}
+          name={!clients.length ? "pobierz klienta" : "zmień klienta"}
           onClick={handleSearchModalOpen}
         />
         <SearchModal
@@ -97,66 +176,121 @@ const AddInvoice = () => {
               }}
             >
               <div className={styles.dates}>
-                <div>
-                  <p>data wystawienia</p>
-                  <Field name="dateOfIssue" type="date" component="input" />
-                </div>
-                <div>
-                  <p>data sprzedaży</p>
-                  <Field name="dateOfSales" type="date" component="input" />
-                </div>
-                <div>
-                  <p>termin płatności</p>
-                  <Field name="dateOfPayment" type="date" component="input" />
-                </div>
+                <Field name="dateOfIssue" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <label> data wystawienia</label>
+                      <input type="date" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
+                <Field name="dateOfSales" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <label> data sprzedaży</label>
+                      <input type="date" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
+                <Field name="dateOfPayment" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <label>termin płatności</label>
+                      <input type="date" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </div>
               <div className={styles.info}>
-                <p>usługa / towar</p>
-                <Field name="description" component="select">
-                  <option value="" />
-                  {decsriptionOptions}
-                </Field>
+                <div>
+                  <label>usługa / towar</label>
+                  <Field name="description" component="select">
+                    <option value={null}>wybierz usługę</option>
+                    {decsriptionOptions}
+                  </Field>
+                </div>
                 <Button
                   type="button"
                   name="dodaj"
                   id="description"
                   onClick={handleOpenAddDescribction}
                 />
-                <p>dodatkowy opis</p>
-                <Field name="additionalDescription" component="input"></Field>
+                <Button
+                  type="button"
+                  name="odśwież"
+                  id="description"
+                  onClick={handleRefreshDescribction}
+                />
+                <Field name="additionalDescription">
+                  {({ input }) => (
+                    <div>
+                      <label>dodatkowy opis</label>
+                      <input type="text" {...input} />
+                    </div>
+                  )}
+                </Field>
               </div>
               <div className={styles.conditions}>
+                <Field name="netPrice" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <label>cena netto</label>
+                      <input type="number" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
+
                 <div>
-                  <p>cena netto</p>
-                  <Field name="netPrice" type="number" component="input" />
-                </div>
-                <div>
-                  <p>waluta</p>
+                  <label>waluta</label>
                   <Field name="currency" component="select">
-                    <option value="" />
+                    <option value={false}>wybierz walutę</option>
                     <option value="PLN">PLN</option>
                     <option value="EUR">EUR</option>
                   </Field>
                 </div>
+                <p>data kursu waluty</p>
+                <Field name="dateOfExchange">
+                  {({ input }) => (
+                    <div>
+                      <input type="date" {...input} />
+                    </div>
+                  )}
+                </Field>
+
                 <div>
-                  <p>vat</p>
+                  <label>stawka VAT</label>
                   <Field name="vat" component="select">
-                    <option value="" />
-                    <option value="0">0%</option>
+                    <option value={false}>wybierz stawkę VAT</option>
+                    <option value="1">0%</option>
                     <option value="8">8%</option>
                     <option value="23">23%</option>
-                    <option value="none">zwolniony</option>
+                    <option value={null}>zwolniony</option>
                   </Field>
                 </div>
 
-                <div>
-                  <p>ilość</p>
-                  <Field name="quantity" type="number" component="input" />
-                </div>
+                <Field name="quantity" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <label>ilość</label>
+                      <input type="number" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </div>
               <div className={styles.addInfo}>
-                <p>Informacje dodatkowe</p>
-                <Field name="additionalInfo" component="input"></Field>
+                <Field name="additionalInfo">
+                  {({ input }) => (
+                    <div>
+                      <label>Informacje dodatkowe</label>
+                      <input type="text" {...input} />
+                    </div>
+                  )}
+                </Field>
               </div>
               <div className={styles.buttons}>
                 <Button type="submit" disabled={submitting} name="podgląd" />
@@ -173,6 +307,10 @@ const AddInvoice = () => {
         isModalOpen={addDescribeModalOpen}
         setIsModalOpen={setAddDescribeModalOpen}
         dataFrom={dataFrom}
+      />
+      <ShowInvoice
+        isModalOpen={checkModalOpen}
+        setIsModalOpen={setCheckModalOpen}
       />
     </div>
   );

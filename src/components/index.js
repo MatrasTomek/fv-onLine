@@ -5,4 +5,9 @@ export { default as Modal } from "./Modal";
 export { ClientItem, AddClientForm, SearchModal } from "./ClientModule";
 export { default as TaskInformation } from "./TaskInformation";
 export { default as DeleteConfirmation } from "./DeleteConfirmation";
-export { AddInvoice, InvoiceItem, AddInfoForm } from "./InvoiceModule";
+export {
+  AddInvoice,
+  InvoiceItem,
+  AddInfoForm,
+  ShowInvoice,
+} from "./InvoiceModule";
