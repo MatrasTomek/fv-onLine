@@ -2,13 +2,6 @@ export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
 export const DELETE_CLIENT = "DELETE_CLIENT";
 export const EDIT_CLIENT = "EDIT_CLIENT";
 
-// companyAdress,
-// companyName,
-// eMail,
-// vatNo,
-// _id,
-// info,
-
 export const getAllClients = (data) => ({
   type: GET_ALL_CLIENTS,
   payload: data,
