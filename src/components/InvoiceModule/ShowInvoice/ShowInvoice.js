@@ -27,12 +27,12 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const clientData = !clients.length ? (
     ""
   ) : (
-    <>
+    <div>
       <p>Nabywca:</p>
       <h4>{companyName}</h4>
       <p>{companyAdress}</p>
       <p>{vatNo}</p>
-    </>
+    </div>
   );
 
   const netValue = Number(netPrice) * Number(quantity);
@@ -112,12 +112,12 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
               <p>{vat}%</p>
             </div>
             <div>
-              <div>
-                <p>wartośc podatku VAT:</p>
-                <p>
-                  {vatValue.toFixed(2)} {currency}
-                </p>
-              </div>
+              <p>wartość VAT:</p>
+              <p>
+                {vatValue.toFixed(2)} {currency}
+              </p>
+            </div>
+            <div>
               <p>warość brutto: </p>
               <p>
                 {grossValue.toFixed(2)} {currency}
