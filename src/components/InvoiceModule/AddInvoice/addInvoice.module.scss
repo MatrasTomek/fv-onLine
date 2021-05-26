@@ -1,6 +1,10 @@
 @import "../../../Styles/common.scss";
 .wrapper {
   @include wrapper;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   h1 {
     padding-top: 20px;
@@ -8,5 +12,377 @@
     margin: 0 auto;
     text-align: center;
     font-size: $l-fs;
+  }
+  .orderData {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    input {
+      @include inputViev;
+      width: 150px;
+    }
+    button {
+      @include smallButton;
+      width: auto;
+      margin-top: 10px;
+    }
+  }
+  .customer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px 5px;
+    background-color: $second-color;
+    border-radius: 5px;
+
+    .clientItem {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      p {
+        margin-top: 10px;
+      }
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 90%;
+      button {
+        @include smallButton;
+        width: 120px;
+        margin-top: 10px;
+      }
+    }
+  }
+  .invoice {
+    width: 100%;
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      .dates {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        padding: 20px 5px;
+        background-color: $second-color;
+        border-radius: 5px;
+        div {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+          input {
+            @include inputViev;
+            flex-basis: 50%;
+          }
+          span {
+            color: $text-warring-color;
+          }
+        }
+      }
+      .info {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding: 20px 5px;
+        background-color: $second-color;
+        border-radius: 5px;
+
+        select {
+          @include inputViev;
+          width: 80%;
+          margin: 10px auto;
+          option {
+            background-color: $second-color;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: $xs-fs/1.1;
+          }
+        }
+        .buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+          margin-top: 20px;
+          button {
+            @include smallButton;
+            width: 120px;
+          }
+        }
+
+        div {
+          flex-basis: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 20px;
+
+          input {
+            @include inputViev;
+            width: 100%;
+          }
+        }
+      }
+      .conditions {
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 5px;
+        background-color: $second-color;
+        border-radius: 5px;
+
+        div {
+          flex-basis: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          align-items: center;
+          margin-bottom: 20px;
+
+          input {
+            @include inputViev;
+            flex-basis: 50%;
+          }
+          span {
+            color: $text-warring-color;
+          }
+        }
+        select {
+          @include inputViev;
+          width: 80%;
+          margin: 20px auto;
+          option {
+            background-color: $second-color;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: $xs-fs/1.1;
+          }
+        }
+      }
+      .addInfo {
+        width: 100%;
+        margin-top: 20px;
+        padding-bottom: 20px;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          input {
+            @include inputViev;
+          }
+        }
+      }
+      .operationButtons {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+          @include smallButton;
+          width: 120px;
+        }
+        button:nth-child(2) {
+          background-color: transparent;
+          color: $text-second-color;
+          border: 1px solid $text-second-color;
+          font-weight: 700;
+          &:hover {
+            background-color: $text-second-color;
+            color: $fourth-color;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (orientation: landscape) {
+    .invoice {
+      width: 95%;
+      .form {
+        .conditions {
+          flex-direction: row;
+          flex-wrap: wrap;
+          div {
+            flex-basis: 50%;
+          }
+          select {
+            flex-basis: 40%;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    .orderData {
+      width: 90%;
+
+      button {
+        width: 200px;
+        margin-top: 0px;
+      }
+    }
+    .customer {
+      width: 80%;
+
+      .clientItem {
+        p {
+          margin-top: 10px;
+          font-size: $m-fs;
+        }
+      }
+      .buttons {
+        width: 80%;
+
+        button {
+          width: 160px;
+        }
+      }
+    }
+    .invoice {
+      width: 80%;
+      .form {
+        .dates {
+          padding: 5px 50px;
+          div {
+            input {
+              flex-basis: 30%;
+            }
+            span {
+              font-weight: 700;
+            }
+          }
+        }
+        .info {
+          select {
+            width: 70%;
+            option {
+              font-size: $s-fs;
+            }
+          }
+          .buttons {
+            button {
+              width: 160px;
+            }
+          }
+
+          div {
+            input {
+              width: 90%;
+            }
+          }
+        }
+        .conditions {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          div {
+            flex-basis: 45%;
+
+            label {
+              font-weight: 700;
+            }
+            input {
+              flex-basis: 60%;
+            }
+            span {
+              font-weight: 700;
+            }
+          }
+          select {
+            flex-basis: 40%;
+
+            option {
+              font-size: $s-fs;
+            }
+          }
+        }
+        .operationButtons {
+          margin-top: 20px;
+          button {
+            width: 120px;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    .orderData {
+      width: 50%;
+    }
+    .customer {
+      width: 60%;
+    }
+    .invoice {
+      width: 95%;
+      .form {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .dates {
+          flex-basis: 48%;
+          height: 215px;
+          justify-content: center;
+          div {
+            input {
+              flex-basis: 50%;
+            }
+          }
+        }
+        .info {
+          flex-basis: 48%;
+          height: 215px;
+        }
+        .conditions {
+          flex-basis: 48%;
+          select {
+            flex-basis: 40%;
+          }
+          div {
+            label {
+              flex-basis: 80%;
+            }
+            input {
+              flex-basis: 80%;
+            }
+          }
+        }
+        .addInfo {
+          flex-basis: 48%;
+        }
+
+        .operationButtons {
+          margin-top: 40px;
+        }
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, x-large)) {
+    .customer {
+      width: 50%;
+    }
+    .invoice {
+      width: 80%;
+    }
   }
 }

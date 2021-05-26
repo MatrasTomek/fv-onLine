@@ -134,11 +134,11 @@ const AddInvoice = () => {
     <div className={styles.wrapper}>
       <h1>Dodawanie nowej Faktury</h1>
 
-      <form>
-        <Button type="submit" name="pobierz dane ze zlecenia" />
+      <form className={styles.orderData}>
         <input type="text" placeholder="podaj numer zlecenia" />
+        <Button type="submit" name="pobierz dane ze zlecenia" />
       </form>
-      <p>Faktura numer:</p>
+
       <div className={styles.customer}>
         <h4>Nabywca:</h4>
         <div className={styles.clientItem}>
@@ -146,21 +146,23 @@ const AddInvoice = () => {
           <p>{!clients.length ? "" : clients[0].companyAdress}</p>
           <p>{!clients.length ? "" : clients[0].vatNo}</p>
         </div>
-        <Button name="dodaj klienta" onClick={handleFromModalOpen} />
+        <div className={styles.buttons}>
+          <Button name="dodaj klienta" onClick={handleFromModalOpen} />
+          <Button
+            name={!clients.length ? "pobierz klienta" : "zmień klienta"}
+            onClick={handleSearchModalOpen}
+          />
+        </div>
         <AddClientForm
           isModalOpen={formModalOpen}
           setIsModalOpen={setFormModalOpen}
-        />
-        <Button
-          name={!clients.length ? "pobierz klienta" : "zmień klienta"}
-          onClick={handleSearchModalOpen}
         />
         <SearchModal
           isModalOpen={searchModalOpen}
           setIsModalOpen={setSearchModalOpen}
         />
       </div>
-      <div className={styles.order}>
+      <div className={styles.invoice}>
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -205,25 +207,25 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.info}>
-                <div>
-                  <label>usługa / towar</label>
-                  <Field name="description" component="select">
-                    <option value={null}>wybierz usługę</option>
-                    {decsriptionOptions}
-                  </Field>
+                <Field name="description" component="select">
+                  <option value={null}>wybierz usługę</option>
+                  {decsriptionOptions}
+                </Field>
+
+                <div className={styles.buttons}>
+                  <Button
+                    type="button"
+                    name="dodaj usułgę"
+                    id="description"
+                    onClick={handleOpenAddDescribction}
+                  />
+                  <Button
+                    type="button"
+                    name="odśwież listę"
+                    id="description"
+                    onClick={handleRefreshDescribction}
+                  />
                 </div>
-                <Button
-                  type="button"
-                  name="dodaj"
-                  id="description"
-                  onClick={handleOpenAddDescribction}
-                />
-                <Button
-                  type="button"
-                  name="odśwież"
-                  id="description"
-                  onClick={handleRefreshDescribction}
-                />
                 <Field name="additionalDescription">
                   {({ input }) => (
                     <div>
@@ -243,35 +245,6 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
-
-                <div>
-                  <label>waluta</label>
-                  <Field name="currency" component="select">
-                    <option value={false}>wybierz walutę</option>
-                    <option value="PLN">PLN</option>
-                    <option value="EUR">EUR</option>
-                  </Field>
-                </div>
-                <p>data kursu waluty</p>
-                <Field name="dateOfExchange">
-                  {({ input }) => (
-                    <div>
-                      <input type="date" {...input} />
-                    </div>
-                  )}
-                </Field>
-
-                <div>
-                  <label>stawka VAT</label>
-                  <Field name="vat" component="select">
-                    <option value={false}>wybierz stawkę VAT</option>
-                    <option value="1">0%</option>
-                    <option value="8">8%</option>
-                    <option value="23">23%</option>
-                    <option value={null}>zwolniony</option>
-                  </Field>
-                </div>
-
                 <Field name="quantity" validate={required}>
                   {({ input, meta }) => (
                     <div>
@@ -280,6 +253,28 @@ const AddInvoice = () => {
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                   )}
+                </Field>
+                <Field name="currency" component="select">
+                  <option value={false}>wybierz walutę</option>
+                  <option value="PLN">PLN</option>
+                  <option value="EUR">EUR</option>
+                </Field>
+
+                <Field name="dateOfExchange">
+                  {({ input }) => (
+                    <div>
+                      <label>data kursu waluty</label>
+                      <input type="date" {...input} />
+                    </div>
+                  )}
+                </Field>
+
+                <Field name="vat" component="select">
+                  <option value={false}>wybierz stawkę VAT</option>
+                  <option value="1">0%</option>
+                  <option value="8">8%</option>
+                  <option value="23">23%</option>
+                  <option value={null}>zwolniony</option>
                 </Field>
               </div>
               <div className={styles.addInfo}>
@@ -292,17 +287,15 @@ const AddInvoice = () => {
                   )}
                 </Field>
               </div>
-              <div className={styles.buttons}>
+              <div className={styles.operationButtons}>
                 <Button type="submit" disabled={submitting} name="podgląd" />
+                <BackButton />
               </div>
             </form>
           )}
         />
       </div>
 
-      <div className={styles.buttons}>
-        <BackButton />
-      </div>
       <AddInfoForm
         isModalOpen={addDescribeModalOpen}
         setIsModalOpen={setAddDescribeModalOpen}

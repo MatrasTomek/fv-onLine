@@ -1,0 +1,40 @@
+@import "../../../Styles/common.scss";
+.wrapper {
+  width: 320px;
+  margin-bottom: 20px;
+  border: 1px solid $first-color;
+  border-radius: $radius;
+  padding: 15px;
+  background-color: $second-color;
+  h3 {
+    border-bottom: 1px solid $fifth-color;
+    font-size: $m-fs;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      margin: 10px 20px 0 0;
+      font-size: $xs-fs;
+    }
+  }
+  .buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    button {
+      @include smallButton;
+    }
+  }
+  @media screen and (orientation: landscape) {
+    width: 400px;
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    .item {
+      p {
+        font-size: $s-fs;
+      }
+    }
+  }
+}
