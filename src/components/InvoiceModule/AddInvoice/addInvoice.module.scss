@@ -200,7 +200,7 @@
           @include smallButton;
           width: 120px;
         }
-        button:nth-child(2) {
+        button:nth-child(1) {
           background-color: transparent;
           color: $text-second-color;
           border: 1px solid $text-second-color;

@@ -88,13 +88,15 @@ const AddInvoice = () => {
       dateOfSales: values.dateOfSales,
       dateOfPayment: values.dateOfPayment,
       description: values.description,
-      additionalDescription: values.additionalDescription,
+      additionalDescription: !values.additionalDescription
+        ? ""
+        : values.additionalDescription,
       netPrice: values.netPrice,
       currency: values.currency,
       dateOfExchange: values.dateOfExchange,
       vat: values.vat,
       quantity: values.quantity,
-      additionalInfo: values.additionalInfo,
+      additionalInfo: !values.additionalInfo ? "" : values.additionalInfo,
     };
     invoiceArray.push(invoiceObject);
 
@@ -271,7 +273,7 @@ const AddInvoice = () => {
 
                 <Field name="vat" component="select">
                   <option value={false}>wybierz stawkę VAT</option>
-                  <option value="1">0%</option>
+                  <option value="0">0%</option>
                   <option value="8">8%</option>
                   <option value="23">23%</option>
                   <option value={null}>zwolniony</option>
@@ -288,8 +290,8 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.operationButtons}>
-                <Button type="submit" disabled={submitting} name="podgląd" />
                 <BackButton />
+                <Button type="submit" disabled={submitting} name="podgląd" />
               </div>
             </form>
           )}

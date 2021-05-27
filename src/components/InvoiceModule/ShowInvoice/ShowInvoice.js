@@ -1,13 +1,24 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import invoiceNumber from "../../../helpers/invoiceNumber";
-
+import {
+  addSpinner,
+  removeSpinner,
+  getAllInvoices,
+  timeoutShowTask,
+} from "../../../data/actions";
+import request from "../../../helpers/request";
 import { Button, Modal } from "../../../components";
 import styles from "./showInvoice.module.scss";
 
 const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
-  const invoice = useSelector((store) => store.invoice);
+  const invoicesObj = useSelector((store) => store.invoicesObj);
   const clients = useSelector((store) => store.clients);
   const exchange = useSelector((store) => store.exchange);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const { companyName, companyAdress, vatNo } = !clients[0] ? "" : clients[0];
   const {
@@ -20,7 +31,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
     currency,
     quantity,
     vat,
-  } = !invoice[0] ? "" : invoice[0];
+  } = !invoicesObj[0] ? "" : invoicesObj[0];
 
   const { effectiveDate, mid, no } = !exchange.length ? "" : exchange[0];
 
@@ -62,8 +73,29 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
     setIsModalOpen(false);
   };
 
-  const handleSaveInvoice = () => {
-    invoiceNumber(invoice[0].dateOfIssue.slice(5, 7));
+  const handleSaveInvoice = async () => {
+    dispatch(addSpinner());
+    // console.log(invoiceNumber(invoice[0].dateOfIssue.slice(5, 7)));
+    const invoiceNo = await invoiceNumber(
+      invoicesObj[0].dateOfIssue.slice(5, 7)
+    );
+    const invoiceObj = {
+      invoiceNo: invoiceNo,
+      client: clients[0],
+      invoice: invoicesObj[0],
+      exchange: !exchange[0] ? { no: "0" } : exchange[0],
+    };
+
+    const { data, status } = await request.post("/invoice", invoiceObj);
+    if (status === 201) {
+      dispatch(removeSpinner());
+      dispatch(getAllInvoices([data.data]));
+      dispatch(timeoutShowTask("faktura dodana"));
+      history.push("/invoices");
+    } else {
+      dispatch(removeSpinner());
+      console.log(data.message);
+    }
   };
 
   return (
