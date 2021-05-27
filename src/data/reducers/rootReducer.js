@@ -8,6 +8,7 @@ import { taskReducer } from "./taskReducer";
 import { describeReducer } from "./describeReducer";
 import { invoiceReducer } from "./invoiceReducer";
 import { exchangeReducer } from "./exchangeReducer";
+import { invoiceNumberReducer } from "./invoiceNumberReducer";
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers({
   spinner: spinnerReducer,
   task: taskReducer,
   description: describeReducer,
-  invoice: invoiceReducer,
+  invoicesObj: invoiceReducer,
   exchange: exchangeReducer,
+  invoiceNumber: invoiceNumberReducer,
 });
