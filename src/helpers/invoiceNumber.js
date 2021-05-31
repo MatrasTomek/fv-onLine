@@ -1,14 +1,11 @@
 import request from "./request";
 
-const invoiceNumber = (issueMonth) => {
+const invoiceNumber = async (issueMonth) => {
   const month = issueMonth;
   let number;
   let _id;
 
-  const newInvoiceNumber = {
-    month: "",
-    number: 0,
-  };
+  let newInvoiceNumber = {};
 
   const setNumber = async () => {
     const { data, status } = await request.put("/invoiceNumber", {
@@ -17,9 +14,10 @@ const invoiceNumber = (issueMonth) => {
       _id,
     });
     if (status === 202) {
-      newInvoiceNumber.month = data.data.month;
-      newInvoiceNumber.number = data.data.number;
-      console.log(data);
+      return (newInvoiceNumber = {
+        month: data.data.month,
+        number: data.data.number,
+      });
     } else {
       console.log(data.message);
     }
@@ -31,38 +29,29 @@ const invoiceNumber = (issueMonth) => {
       number,
     });
     if (status === 201) {
-      newInvoiceNumber.month = data.data.month;
-      newInvoiceNumber.number = data.data.number;
-      console.log(data);
+      return (newInvoiceNumber = {
+        month: data.data.month,
+        number: data.data.number,
+      });
     } else {
       console.log(data.message);
     }
   };
 
-  const getNumber = async () => {
-    const { data, status } = await request.get("/invoiceNumber");
-    if (status === 200) {
-      const isMonthSet = data.data.find((item) => item.month === month);
-      if (isMonthSet) {
-        _id = isMonthSet._id;
-        number = isMonthSet.number + 1;
-        setNumber();
-      } else if (!isMonthSet) {
-        number = 1;
-        setNewMonth();
-      }
-    } else {
-      console.log(data.message);
+  const { data, status } = await request.get("/invoiceNumber");
+  if (status === 200) {
+    const isMonthSet = data.data.find((item) => item.month === month);
+    if (isMonthSet) {
+      _id = isMonthSet._id;
+      number = isMonthSet.number + 1;
+      return setNumber();
+    } else if (!isMonthSet) {
+      number = 1;
+      return setNewMonth();
     }
-  };
-  getNumber();
-  return (
-    <>
-      <p>
-        {newInvoiceNumber.number} / {newInvoiceNumber.month}
-      </p>
-    </>
-  );
+  } else {
+    console.log(data.message);
+  }
 };
 
 export default invoiceNumber;

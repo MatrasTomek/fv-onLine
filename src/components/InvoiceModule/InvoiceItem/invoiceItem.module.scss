@@ -6,25 +6,42 @@
   border-radius: $radius;
   padding: 15px;
   background-color: $second-color;
-  h3 {
-    border-bottom: 1px solid $fifth-color;
-    font-size: $m-fs;
-  }
-  .item {
+  font-size: $xs-fs;
+  .invoiceNo {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    p {
-      margin: 10px 20px 0 0;
-      font-size: $xs-fs;
+    margin-bottom: 20px;
+    p:nth-child(2) {
+      font-weight: 700;
     }
   }
+  .client {
+    border-bottom: 1px solid $fifth-color;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  .basicInfo,
+  .additionalInfo {
+    div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .exchangeInfo {
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+
   .buttons {
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
     button {
       @include smallButton;
+    }
+    button:nth-child(1) {
+      width: 100px;
     }
   }
   @media screen and (orientation: landscape) {

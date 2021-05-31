@@ -54,7 +54,6 @@ const AddInvoice = () => {
   const handleRefreshDescribction = async (event) => {
     event.preventDefault();
     dispatch(addSpinner());
-    dispatch(addSpinner());
 
     const { data, status } = await request.get("/describe");
     if (status === 200) {
