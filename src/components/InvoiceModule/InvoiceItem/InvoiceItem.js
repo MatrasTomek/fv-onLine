@@ -21,7 +21,6 @@ const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
     quantity,
     vat,
   } = invoice;
-  const { month, number } = invoiceNo;
 
   const netValue = Number(netPrice) * quantity;
   const vatValue = (netValue * vat) / 1000;
@@ -107,15 +106,12 @@ const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
   const handleDeleteConfirmation = () => {
     setIsConfirmationOpen(true);
   };
-  const date = new Date();
-  const year = date.getFullYear();
-  const invoiceNumber = `${number}/${MONTHS_INFO[Number(month) - 1]}/${year}`;
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.invoiceNo}>
         <p>Faktura numer:</p>
-        <p>{invoiceNumber}</p>
+        <p>{invoiceNo}</p>
       </div>
       <div className={styles.client}>
         <p>Nabywca:</p>
@@ -143,6 +139,7 @@ const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
           onClick={handleShowDetails}
         />
         <Button name="edytuj" onClick={handleOnEdit} />
+        <Button name="drukuj" />
         <Button name="usuń" onClick={handleDeleteConfirmation} />
       </div>
 

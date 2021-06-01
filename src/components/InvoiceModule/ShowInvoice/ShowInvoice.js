@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { MONTHS_INFO } from "../../../helpers/monthsInfo";
 import invoiceNumber from "../../../helpers/invoiceNumber";
 import {
   addSpinner,
@@ -75,10 +76,19 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 
   const handleSaveInvoice = async () => {
     dispatch(addSpinner());
-    // console.log(invoiceNumber(invoice[0].dateOfIssue.slice(5, 7)));
-    const invoiceNo = await invoiceNumber(
+
+    const invoiceNoDB = await invoiceNumber(
       invoicesObj[0].dateOfIssue.slice(5, 7)
     );
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const invoiceNo = `${invoiceNoDB.number}/${
+      MONTHS_INFO[Number(invoiceNoDB.month) - 1]
+    }/${year}`;
+
+    console.log(invoiceNo);
+
     const invoiceObj = {
       invoiceNo: invoiceNo,
       client: clients[0],
