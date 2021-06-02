@@ -1,6 +1,13 @@
-import { GET_ALL_INVOICES, DELETE_INVOICE, EDIT_INVOICE } from "../actions";
+import {
+  GET_ALL_INVOICES,
+  DELETE_INVOICE,
+  EDIT_INVOICE,
+  CLEAR_INVOICE,
+} from "../actions";
 
-export const invoiceReducer = (state = [], action) => {
+const initialState = [];
+
+export const invoiceReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_INVOICES:
       return (state = action.payload);
@@ -37,7 +44,8 @@ export const invoiceReducer = (state = [], action) => {
       });
     case DELETE_INVOICE:
       return state.filter((item) => item._id !== action.payload);
-
+    case CLEAR_INVOICE:
+      return initialState;
     default:
       console.warn(`Nie ma akcji typu ${action.type}`);
       return state;

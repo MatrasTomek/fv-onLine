@@ -32,6 +32,15 @@
         color: $fourth-color;
       }
     }
+    .form {
+      input {
+        @include inputViev;
+        width: 160px;
+      }
+      button {
+        width: 40px;
+      }
+    }
   }
 
   .invoicesList {

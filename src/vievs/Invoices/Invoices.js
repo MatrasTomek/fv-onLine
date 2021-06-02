@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getAllInvoices,
   addSpinner,
+  clearInvoice,
+  editDel,
+  getAllInvoices,
   removeSpinner,
   timeoutShowTask,
 } from "../../data/actions";
@@ -47,18 +49,24 @@ const Invoices = () => {
     }
   };
 
-  const invoivesViev = !invoicesObj.length
-    ? ""
-    : invoicesObj.map((item) => (
-        <InvoiceItem
-          key={item._id}
-          id={item._id}
-          client={item.client}
-          invoice={item.invoice}
-          invoiceNo={item.invoiceNo}
-          exchange={item.exchange}
-        />
-      ));
+  const invoivesViev =
+    !invoicesObj.length || !invoicesObj[0]._id
+      ? ""
+      : invoicesObj.map((item) => (
+          <InvoiceItem
+            key={item._id}
+            id={item._id}
+            client={item.client}
+            invoice={item.invoice}
+            invoiceNo={item.invoiceNo}
+            exchange={item.exchange}
+          />
+        ));
+
+  const handleClearEdit = () => {
+    dispatch(editDel());
+    dispatch(clearInvoice());
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -68,9 +76,9 @@ const Invoices = () => {
           <BackButton />
         </div>
         <Link to="/invoices/add">
-          <Button name="dodaj fakture" />
+          <Button name="dodaj fakture" onClick={handleClearEdit} />
         </Link>
-        <form onSubmit={handleSearchInvoice}>
+        <form className={styles.form} onSubmit={handleSearchInvoice}>
           <input
             type="text"
             placeholder="podaj numer faktury"

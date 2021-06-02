@@ -1,11 +1,20 @@
 import { useState } from "react";
-
-import { AddClientForm, Button, DeleteConfirmation } from "../../../components";
-import { MONTHS_INFO } from "../../../helpers/monthsInfo";
-import { ClientItem } from "../../ClientModule";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { editSet, getAllClients } from "../../../data/actions";
+import { Button, DeleteConfirmation } from "../../../components";
 import styles from "./invoiceItem.module.scss";
 
-const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
+const InvoiceItem = ({
+  id = "",
+  client = {},
+  invoice = {},
+  invoiceNo = 0,
+  exchange = {},
+}) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const { companyAdress, companyName, vatNo } = client;
   const { effectiveDate, mid, no } = exchange;
   const {
@@ -26,7 +35,6 @@ const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
   const vatValue = (netValue * vat) / 1000;
   const grossValue = netValue + vatValue;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -99,8 +107,18 @@ const InvoiceItem = ({ id, client, invoice, invoiceNo, exchange }) => {
     </div>
   );
 
-  const handleOnEdit = async () => {
-    setIsModalOpen(true);
+  const handleOnEdit = () => {
+    const invoiceData = [
+      {
+        _id: id,
+        invoice,
+        invoiceNo,
+        exchange,
+      },
+    ];
+    dispatch(getAllClients([client]));
+    dispatch(editSet(invoiceData));
+    history.push("/invoices/add");
   };
 
   const handleDeleteConfirmation = () => {

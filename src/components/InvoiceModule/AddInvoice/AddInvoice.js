@@ -5,6 +5,7 @@ import { Form, Field } from "react-final-form";
 import {
   addSpinner,
   removeSpinner,
+  getAllClients,
   getAllInvoices,
   timeoutShowTask,
   getExchange,
@@ -27,7 +28,8 @@ const required = (value) => (value ? undefined : "Pole wymagane");
 const AddInvoice = () => {
   const clients = useSelector((store) => store.clients);
   const description = useSelector((store) => store.description);
-  const invoice = useSelector((store) => store.invoice);
+  const isEdit = useSelector((store) => store.isEdit[0].isEdit);
+  const editData = useSelector((store) => store.isEdit[0].data[0]);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -43,6 +45,19 @@ const AddInvoice = () => {
   };
   const handleSearchModalOpen = () => {
     setSearchModalOpen(true);
+  };
+
+  const clientViev = () => {
+    if (!clients.length) {
+      return "";
+    } else
+      return (
+        <>
+          <p>{clients[0].companyName}</p>
+          <p>{clients[0].companyAdress}</p>
+          <p>{clients[0].vatNo}</p>
+        </>
+      );
   };
 
   const handleOpenAddDescribction = (e) => {
@@ -76,10 +91,13 @@ const AddInvoice = () => {
 
   const onSubmit = (values) => {
     dispatch(addSpinner());
-    if (!clients.length) {
+    if (!clients.length && !isEdit) {
       dispatch(timeoutShowTask(`dodaj nabywcę`));
       dispatch(removeSpinner());
       return;
+    }
+    if (isEdit) {
+      getAllClients(editData.client);
     }
     const invoiceArray = [];
     const invoiceObject = {
@@ -131,22 +149,28 @@ const AddInvoice = () => {
     }
   };
 
+  const getOdrerDataViev = !isEdit ? (
+    <form className={styles.orderData}>
+      <input type="text" placeholder="podaj numer zlecenia" />
+      <Button type="submit" name="pobierz dane ze zlecenia" />
+    </form>
+  ) : (
+    ""
+  );
+
   return (
     <div className={styles.wrapper}>
-      <h1>Dodawanie nowej Faktury</h1>
+      <h1>
+        {!isEdit
+          ? "Dodawanie nowej Faktury"
+          : `Edycja faktury ${editData.invoiceNo}`}
+      </h1>
 
-      <form className={styles.orderData}>
-        <input type="text" placeholder="podaj numer zlecenia" />
-        <Button type="submit" name="pobierz dane ze zlecenia" />
-      </form>
+      {getOdrerDataViev}
 
       <div className={styles.customer}>
         <h4>Nabywca:</h4>
-        <div className={styles.clientItem}>
-          <p>{!clients.length ? "" : clients[0].companyName}</p>
-          <p>{!clients.length ? "" : clients[0].companyAdress}</p>
-          <p>{!clients.length ? "" : clients[0].vatNo}</p>
-        </div>
+        <div className={styles.clientItem}>{clientViev()}</div>
         <div className={styles.buttons}>
           <Button name="dodaj klienta" onClick={handleFromModalOpen} />
           <Button
@@ -179,7 +203,11 @@ const AddInvoice = () => {
               }}
             >
               <div className={styles.dates}>
-                <Field name="dateOfIssue" validate={required}>
+                <Field
+                  name="dateOfIssue"
+                  validate={required}
+                  initialValue={isEdit ? editData.invoice.dateOfIssue : null}
+                >
                   {({ input, meta }) => (
                     <div>
                       <label> data wystawienia</label>
@@ -188,7 +216,11 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
-                <Field name="dateOfSales" validate={required}>
+                <Field
+                  name="dateOfSales"
+                  validate={required}
+                  initialValue={isEdit ? editData.invoice.dateOfSales : ""}
+                >
                   {({ input, meta }) => (
                     <div>
                       <label> data sprzedaży</label>
@@ -197,7 +229,11 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
-                <Field name="dateOfPayment" validate={required}>
+                <Field
+                  name="dateOfPayment"
+                  validate={required}
+                  initialValue={isEdit ? editData.invoice.dateOfPayment : ""}
+                >
                   {({ input, meta }) => (
                     <div>
                       <label>termin płatności</label>
@@ -208,7 +244,11 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.info}>
-                <Field name="description" component="select">
+                <Field
+                  name="description"
+                  component="select"
+                  initialValue={isEdit ? editData.invoice.description : ""}
+                >
                   <option value={null}>wybierz usługę</option>
                   {decsriptionOptions}
                 </Field>
@@ -227,7 +267,12 @@ const AddInvoice = () => {
                     onClick={handleRefreshDescribction}
                   />
                 </div>
-                <Field name="additionalDescription">
+                <Field
+                  name="additionalDescription"
+                  initialValue={
+                    isEdit ? editData.invoice.additionalDescription : ""
+                  }
+                >
                   {({ input }) => (
                     <div>
                       <label>dodatkowy opis</label>
@@ -237,7 +282,11 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.conditions}>
-                <Field name="netPrice" validate={required}>
+                <Field
+                  name="netPrice"
+                  validate={required}
+                  initialValue={isEdit ? editData.invoice.netPrice : ""}
+                >
                   {({ input, meta }) => (
                     <div>
                       <label>cena netto</label>
@@ -246,7 +295,11 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
-                <Field name="quantity" validate={required}>
+                <Field
+                  name="quantity"
+                  validate={required}
+                  initialValue={isEdit ? editData.invoice.quantity : ""}
+                >
                   {({ input, meta }) => (
                     <div>
                       <label>ilość</label>
@@ -255,13 +308,20 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
-                <Field name="currency" component="select">
+                <Field
+                  name="currency"
+                  component="select"
+                  initialValue={isEdit ? editData.invoice.currency : ""}
+                >
                   <option value={false}>wybierz walutę</option>
                   <option value="PLN">PLN</option>
                   <option value="EUR">EUR</option>
                 </Field>
 
-                <Field name="dateOfExchange">
+                <Field
+                  name="dateOfExchange"
+                  initialValue={isEdit ? editData.invoice.dateOfExchange : ""}
+                >
                   {({ input }) => (
                     <div>
                       <label>data kursu waluty</label>
@@ -270,7 +330,11 @@ const AddInvoice = () => {
                   )}
                 </Field>
 
-                <Field name="vat" component="select">
+                <Field
+                  name="vat"
+                  component="select"
+                  initialValue={isEdit ? editData.invoice.vat : ""}
+                >
                   <option value={false}>wybierz stawkę VAT</option>
                   <option value="0">0%</option>
                   <option value="8">8%</option>
@@ -279,7 +343,10 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.addInfo}>
-                <Field name="additionalInfo">
+                <Field
+                  name="additionalInfo"
+                  initialValue={isEdit ? editData.invoice.additionalInfo : ""}
+                >
                   {({ input }) => (
                     <div>
                       <label>Informacje dodatkowe</label>
@@ -289,7 +356,7 @@ const AddInvoice = () => {
                 </Field>
               </div>
               <div className={styles.operationButtons}>
-                <BackButton />
+                <BackButton type="button" />
                 <Button type="submit" disabled={submitting} name="podgląd" />
               </div>
             </form>

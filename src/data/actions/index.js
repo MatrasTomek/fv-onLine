@@ -7,3 +7,4 @@ export * from "./describeActions";
 export * from "./invoiceActions";
 export * from "./exchangeActions";
 export * from "./invoiceNumberActions";
+export * from "./editAction";

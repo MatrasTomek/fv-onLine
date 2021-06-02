@@ -9,6 +9,7 @@ import { describeReducer } from "./describeReducer";
 import { invoiceReducer } from "./invoiceReducer";
 import { exchangeReducer } from "./exchangeReducer";
 import { invoiceNumberReducer } from "./invoiceNumberReducer";
+import { editReducer } from "./editReducer";
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -20,4 +21,5 @@ export const rootReducer = combineReducers({
   invoicesObj: invoiceReducer,
   exchange: exchangeReducer,
   invoiceNumber: invoiceNumberReducer,
+  isEdit: editReducer,
 });

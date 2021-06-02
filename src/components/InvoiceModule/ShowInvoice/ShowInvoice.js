@@ -16,6 +16,8 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const invoicesObj = useSelector((store) => store.invoicesObj);
   const clients = useSelector((store) => store.clients);
   const exchange = useSelector((store) => store.exchange);
+  const isEdit = useSelector((store) => store.isEdit[0].isEdit);
+  const editData = useSelector((store) => store.isEdit[0].data[0]);
 
   const history = useHistory();
 
@@ -76,38 +78,55 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 
   const handleSaveInvoice = async () => {
     dispatch(addSpinner());
+    if (!isEdit) {
+      const invoiceNoDB = await invoiceNumber(
+        invoicesObj[0].dateOfIssue.slice(5, 7)
+      );
 
-    const invoiceNoDB = await invoiceNumber(
-      invoicesObj[0].dateOfIssue.slice(5, 7)
-    );
+      const date = new Date();
+      const year = date.getFullYear();
+      const invoiceNo = `${invoiceNoDB.number}/${
+        MONTHS_INFO[Number(invoiceNoDB.month) - 1]
+      }/${year}`;
 
-    const date = new Date();
-    const year = date.getFullYear();
-    const invoiceNo = `${invoiceNoDB.number}/${
-      MONTHS_INFO[Number(invoiceNoDB.month) - 1]
-    }/${year}`;
+      const invoiceObj = {
+        invoiceNo: invoiceNo,
+        client: clients[0],
+        invoice: invoicesObj[0],
+        exchange: !exchange[0] ? { no: "0" } : exchange[0],
+      };
 
-    console.log(invoiceNo);
-
-    const invoiceObj = {
-      invoiceNo: invoiceNo,
-      client: clients[0],
-      invoice: invoicesObj[0],
-      exchange: !exchange[0] ? { no: "0" } : exchange[0],
-    };
-
-    const { data, status } = await request.post("/invoice", invoiceObj);
-    if (status === 201) {
-      dispatch(removeSpinner());
-      dispatch(getAllInvoices([data.data]));
-      dispatch(timeoutShowTask("faktura dodana"));
-      history.push("/invoices");
+      const { data, status } = await request.post("/invoice", invoiceObj);
+      if (status === 201) {
+        dispatch(removeSpinner());
+        dispatch(getAllInvoices([data.data]));
+        dispatch(timeoutShowTask("faktura dodana"));
+        history.push("/invoices");
+      } else {
+        dispatch(removeSpinner());
+        console.log(data.message);
+      }
     } else {
-      dispatch(removeSpinner());
-      console.log(data.message);
+      const invoiceObj = {
+        id: editData._id,
+        invoiceNo: editData.invoiceNo,
+        client: clients[0],
+        invoice: invoicesObj[0],
+        exchange: !exchange[0] ? { no: "0" } : exchange[0],
+      };
+      const { data, status } = await request.put("/invoice", invoiceObj);
+      if (status === 202) {
+        dispatch(removeSpinner());
+        console.log(data.data);
+        dispatch(getAllInvoices([data.data]));
+        dispatch(timeoutShowTask("dane faktury zmienione"));
+        history.push("/invoices");
+      } else {
+        dispatch(removeSpinner());
+        console.log(data.message);
+      }
     }
   };
-
   return (
     <Modal isModalOpen={isModalOpen}>
       <div className={styles.wrapper}>
