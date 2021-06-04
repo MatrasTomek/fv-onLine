@@ -92,7 +92,7 @@ const AddInvoice = () => {
   const onSubmit = (values) => {
     dispatch(addSpinner());
     if (!clients.length && !isEdit) {
-      dispatch(timeoutShowTask(`dodaj nabywcę`));
+      dispatch(timeoutShowTask(`Dodaj nabywcę`));
       dispatch(removeSpinner());
       return;
     }
@@ -132,7 +132,7 @@ const AddInvoice = () => {
         .then((json) => {
           if (json.status === "404") {
             dispatch(removeSpinner());
-            dispatch(timeoutShowTask(`nie ma kursu waluty w podanej dacie`));
+            dispatch(timeoutShowTask(`Nie ma kursu waluty w podanej dacie`));
           } else {
             dispatch(getAllInvoices(invoiceArray));
             dispatch(getExchange(json.rates));
@@ -144,7 +144,7 @@ const AddInvoice = () => {
         .catch(function (e) {
           console.log(e);
           dispatch(removeSpinner());
-          dispatch(timeoutShowTask(`podaj datę kursu Euro`));
+          dispatch(timeoutShowTask(`Podaj datę kursu Euro`));
         });
     }
   };

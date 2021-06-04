@@ -33,7 +33,7 @@ const Invoices = () => {
       dispatch(getAllInvoices(data.data));
     } else {
       dispatch(removeSpinner());
-      dispatch(timeoutShowTask(data.message));
+      dispatch(timeoutShowTask("Nie ma faktury o podanym numerze."));
     }
   };
 

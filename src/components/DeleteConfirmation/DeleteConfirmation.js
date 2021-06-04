@@ -2,10 +2,10 @@ import { useDispatch } from "react-redux";
 import {
   addSpinner,
   removeSpinner,
-  deleteClient,
+  deleteInvoice,
   timeoutShowTask,
 } from "../../data/actions";
-import clientRequest from "../../helpers/clientRequest";
+import request from "../../helpers/request";
 
 import { Button, Modal } from "..";
 import styles from "./deleteConfirmation.module.scss";
@@ -16,16 +16,16 @@ const DeleteConfirmation = ({ isModalOpen, setIsModalOpen, id }) => {
   const handleOnDelete = async () => {
     dispatch(addSpinner());
     try {
-      const { status } = await clientRequest.delete(`/clients/${id}`);
+      const { status } = await request.delete(`/invoice/${id}`);
 
       if (status === 200) {
-        dispatch(deleteClient(id));
+        dispatch(deleteInvoice(id));
         dispatch(removeSpinner());
-        dispatch(timeoutShowTask("Usunięto klięnta"));
+        dispatch(timeoutShowTask("Usunięto fakturę"));
       }
     } catch (error) {
       dispatch(removeSpinner());
-      console.warn("cos nie taK");
+      console.warn("cos nie tak");
     }
   };
 
