@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editSet, getAllClients } from "../../../data/actions";
-import { Button, DeleteConfirmation } from "../../../components";
+import { editSet, getAllClients, getAllInvoices } from "../../../data/actions";
+import { Button, DeleteConfirmation, PrintInvoice } from "../../../components";
 import styles from "./invoiceItem.module.scss";
 
 const InvoiceItem = ({
@@ -30,6 +30,8 @@ const InvoiceItem = ({
     quantity,
     vat,
   } = invoice;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const netValue = Number(netPrice) * quantity;
   const vatValue = (netValue * vat) / 1000;
@@ -120,6 +122,20 @@ const InvoiceItem = ({
     dispatch(editSet(invoiceData));
     history.push("/invoices/add");
   };
+  const handleOnPrint = () => {
+    const invoiceData = [
+      {
+        _id: id,
+        client: client,
+        invoice,
+        invoiceNo,
+        exchange,
+      },
+    ];
+    dispatch(getAllInvoices(invoiceData));
+    // history.push("/invoices/print");
+    setIsModalOpen(true);
+  };
 
   const handleDeleteConfirmation = () => {
     setIsConfirmationOpen(true);
@@ -157,7 +173,7 @@ const InvoiceItem = ({
           onClick={handleShowDetails}
         />
         <Button name="edytuj" onClick={handleOnEdit} />
-        <Button name="drukuj" />
+        <Button name="drukuj" onClick={handleOnPrint} />
         <Button name="usuń" onClick={handleDeleteConfirmation} />
       </div>
 
@@ -166,6 +182,7 @@ const InvoiceItem = ({
         setIsModalOpen={setIsConfirmationOpen}
         id={id}
       />
+      <PrintInvoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 };

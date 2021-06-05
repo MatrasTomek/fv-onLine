@@ -31,6 +31,7 @@ const Invoices = () => {
     if (status === 200) {
       dispatch(removeSpinner());
       dispatch(getAllInvoices(data.data));
+      console.log(data.data);
     } else {
       dispatch(removeSpinner());
       dispatch(timeoutShowTask("Nie ma faktury o podanym numerze."));

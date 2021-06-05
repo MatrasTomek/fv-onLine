@@ -1,0 +1,356 @@
+@import "../../../Styles/common.scss";
+
+.wrapper {
+  @include wrapper;
+  width: 85vw;
+  max-height: 90vh;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: $text-second-color;
+  font-size: $xs-fs;
+  .sidesOfContract {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $fifth-color;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h3 {
+        text-align: center;
+      }
+      p {
+        text-align: center;
+      }
+    }
+
+    div:nth-child(1) {
+      flex-direction: row;
+      flex-basis: 100%;
+      justify-content: space-around;
+
+      p {
+        span {
+          font-weight: 700;
+        }
+        span:nth-child(2) {
+          display: none;
+        }
+      }
+      form {
+        select {
+          width: 80px;
+          font-size: $xs-fs;
+          border-radius: 5px;
+          background-color: $fifth-color;
+          color: $fourth-color;
+        }
+      }
+    }
+  }
+  .invoiceDetails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    .dates {
+      flex-basis: 99%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      font-size: $xs-fs/1.2;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $fifth-color;
+      div {
+        flex-basis: 33%;
+        p {
+          text-align: center;
+        }
+        p:nth-child(1) {
+          font-weight: 600;
+        }
+      }
+      div:nth-child(4) {
+        flex-basis: 90%;
+        p {
+          text-align: left;
+        }
+      }
+    }
+    .prices {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $fifth-color;
+      div {
+        flex-basis: 33%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        p {
+          text-align: center;
+        }
+        p:nth-child(1) {
+          flex-basis: 100%;
+          font-weight: 600;
+        }
+      }
+    }
+    .taxes {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $fifth-color;
+      div {
+        flex-basis: 33%;
+        p {
+          text-align: center;
+        }
+        p:nth-child(1) {
+          font-weight: 600;
+        }
+      }
+    }
+    .discribes {
+      font-size: $xs-fs/1.2;
+      text-align: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .payInfo {
+      display: none;
+    }
+    .footer {
+      display: none;
+    }
+  }
+  .buttons {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      @include smallButton;
+      width: 70px;
+    }
+    button:nth-child(1) {
+      background-color: $fourth-color;
+      color: $text-second-color;
+      border: 1px solid $text-second-color;
+      font-weight: 700;
+      &:hover {
+        background-color: $text-second-color;
+        color: $fourth-color;
+      }
+    }
+  }
+  @media screen and (orientation: landscape) {
+    width: 90vw;
+    .sidesOfContract {
+      div {
+        flex-basis: 49%;
+        // align-items: flex-start;
+        font-size: $xs-fs/1.2;
+      }
+    }
+    .invoiceDetails {
+      .dates {
+        flex-basis: 100%;
+        margin: 0;
+        padding: 0;
+        div {
+          flex-basis: 33%;
+        }
+      }
+      .prices,
+      .taxes,
+      .discribes {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .buttons {
+      margin-top: 10px;
+      padding: 0;
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: $s-fs;
+    .sidesOfContract {
+      margin: 10px;
+      div {
+        margin-bottom: 10px;
+        font-size: $xs-fs;
+      }
+      div:nth-child(1) {
+        flex-basis: 60%;
+      }
+    }
+
+    .invoiceDetails {
+      .dates,
+      .prices,
+      .taxes,
+      .discribes {
+        margin: 10px;
+        font-size: $xs-fs;
+        padding-bottom: 10px;
+      }
+    }
+    .buttons {
+      button {
+        width: 100px;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    width: 70vw;
+    .sidesOfContract {
+      div:nth-child(1) {
+        font-size: $m-fs;
+      }
+    }
+    .invoiceDetails {
+      .dates,
+      .prices,
+      .taxes,
+      .discribes {
+        font-size: $m-fs/1.1;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, x-large)) {
+    width: 60vw;
+  }
+}
+@media print {
+  .wrapper {
+    .sidesOfContract {
+      flex-direction: row;
+      justify-content: space-between;
+      border: none;
+      margin-bottom: 30px;
+      div:nth-child(1) {
+        flex-basis: 100%;
+        text-align: center;
+        font-size: $l-fs;
+        margin-bottom: 30px;
+        p {
+          span {
+            font-weight: 700;
+          }
+          span:nth-child(2) {
+            display: block;
+          }
+        }
+        form {
+          display: none;
+        }
+      }
+      div:nth-child(2) {
+        flex-basis: 48%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+      div:nth-child(3) {
+        flex-basis: 48%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+    }
+    .invoiceDetails {
+      border: none;
+      .dates {
+        border: none;
+        font-size: $m-fs;
+        div:nth-child(4) {
+          flex-basis: 100%;
+          margin-top: 40px;
+          padding-top: 10px;
+          border-top: 1px solid black;
+        }
+      }
+      .prices {
+        border: none;
+        justify-content: center;
+        div {
+          flex-basis: 33%;
+          font-size: $m-fs;
+          border: 1px solid black;
+          border-radius: 5px;
+        }
+      }
+      .taxes {
+        border: none;
+        flex-direction: column;
+        align-items: flex-end;
+        padding-bottom: 20px;
+        border-bottom: 1px solid black;
+        div {
+          width: 190px;
+          font-size: $m-fs;
+          border: 1px solid black;
+          border-radius: 5px;
+          margin-bottom: 5px;
+        }
+      }
+      .discribes {
+        margin-top: 10px;
+        font-size: $s-fs;
+        font-weight: 500;
+      }
+      .payInfo {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 40px;
+        h2 {
+          flex-basis: 25%;
+        }
+      }
+      .footer {
+        flex-basis: 100%;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        div:nth-child(1) {
+          flex-basis: 100%;
+          display: flex;
+          justify-self: flex-end;
+          margin-bottom: 30px;
+        }
+      }
+    }
+    .buttons {
+      display: none;
+    }
+  }
+}
+@page {
+  size: auto;
+  margin: 15mm;
+}

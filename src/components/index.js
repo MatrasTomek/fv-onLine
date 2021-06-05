@@ -10,4 +10,5 @@ export {
   InvoiceItem,
   AddInfoForm,
   ShowInvoice,
+  PrintInvoice,
 } from "./InvoiceModule";
