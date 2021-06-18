@@ -12,3 +12,4 @@ export {
   ShowInvoice,
   PrintInvoice,
 } from "./InvoiceModule";
+export { default as Menu } from "./Menu";

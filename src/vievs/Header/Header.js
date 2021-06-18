@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginDel, cookieDel } from "../../data/actions";
 import { deleteCoockie } from "../../helpers/session";
 
-import { Button } from "../../components";
+import { Button, Menu } from "../../components";
 import { LoginForm } from "../../vievs";
 import styles from "./header.module.scss";
 
@@ -13,10 +13,12 @@ const Header = () => {
   const cookie = useSelector((store) => store.cookie[0].isCookie);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+  console.log(isMenuOpen);
 
   const history = useHistory();
 
@@ -27,10 +29,20 @@ const Header = () => {
     history.push("./");
   };
 
+  const handleOpenMenu = () => {
+    setIsMenuOpen(true);
+  };
+
   const logOnLogOffButton = !cookie ? (
     <Button name="zaloguj" onClick={handleOpenModal} />
   ) : (
     <Button name="wyloguj" onClick={handleLogOff} />
+  );
+
+  const menuButton = !cookie ? (
+    ""
+  ) : (
+    <Button name="menu" onClick={handleOpenMenu} />
   );
 
   return (
@@ -41,9 +53,11 @@ const Header = () => {
 
       <div className={styles.options}>
         {logOnLogOffButton}
+        {menuButton}
         <Button name="testuj" />
       </div>
       <LoginForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
     </div>
   );
 };
