@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addSpinner,
@@ -8,17 +8,81 @@ import {
   getAllInvoices,
   removeSpinner,
   timeoutShowTask,
+  orderDataSet,
+  orderDataDel,
 } from "../../data/actions";
 import request from "../../helpers/request";
+import clientRequest from "../../helpers/clientRequest";
 import { Button, BackButton, InvoiceItem } from "../../components";
 import styles from "./invoices.module.scss";
 
 const Invoices = () => {
   const invoicesObj = useSelector((store) => store.invoicesObj);
   const dispatch = useDispatch();
+  const history = useHistory();
+  // Set data from order (DB for OrderOnLine)
+  const [orderNumber, setOrderNumber] = useState("");
 
+  const handleSetOrderNumber = (e) => {
+    e.preventDefault();
+    setOrderNumber(e.target.value);
+  };
+
+  const handleGetOrderData = async (e) => {
+    e.preventDefault();
+    dispatch(addSpinner());
+    const { data, status } = await clientRequest.get(`/orders/${orderNumber}`);
+    if (status === 200) {
+      console.log(data.data);
+      const invoiceData = [
+        {
+          additionalDescription: `Trasa: ${data.data[0].orderLoadCity} - ${data.data[0].orderUnloadCity}`,
+          currency: data.data[0].orderClientCurr,
+          dateOfSales: data.data[0].orderUnloadDate,
+          netPrice: data.data[0].orderClientPrice,
+          quantity: "1",
+        },
+        {
+          clientAdress: data.data[0].clientAdress,
+          clientName: data.data[0].clientName,
+          clientVatNo: data.data[0].clientVatNo,
+        },
+      ];
+      dispatch(editDel());
+      dispatch(orderDataSet(invoiceData));
+      history.push("/invoices/add");
+      dispatch(removeSpinner());
+    } else {
+      dispatch(timeoutShowTask(data.message));
+      dispatch(removeSpinner());
+    }
+  };
+
+  const getOdrerDataViev = (
+    <form className={styles.orderData} onSubmit={handleGetOrderData}>
+      <input
+        type="text"
+        placeholder="pobierz dane ze zlecenie numer:"
+        value={orderNumber}
+        onChange={handleSetOrderNumber}
+      />
+      <button className={styles.downloadButton} type="submit">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          fill="#000000"
+        >
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" />
+        </svg>
+      </button>
+    </form>
+  );
+
+  //Serch Invoice
   const [invoiceNo, setInvoiceNo] = useState(false);
-
   const handleSetInvoiceNo = (e) => {
     e.preventDefault();
     setInvoiceNo(e.target.value);
@@ -31,13 +95,13 @@ const Invoices = () => {
     if (status === 200) {
       dispatch(removeSpinner());
       dispatch(getAllInvoices(data.data));
-      console.log(data.data);
     } else {
       dispatch(removeSpinner());
       dispatch(timeoutShowTask("Nie ma faktury o podanym numerze."));
     }
   };
 
+  // Geat all Invoices from DB or refresh DB
   const handleGetAllInvoices = async () => {
     dispatch(addSpinner());
     const { data, status } = await request.get("/invoice");
@@ -50,6 +114,7 @@ const Invoices = () => {
     }
   };
 
+  // Invoices viev
   const invoivesViev =
     !invoicesObj.length || !invoicesObj[0]._id
       ? ""
@@ -64,9 +129,11 @@ const Invoices = () => {
           />
         ));
 
+  // Open Add new Invoice page
   const handleClearEdit = () => {
     dispatch(editDel());
     dispatch(clearInvoice());
+    dispatch(orderDataDel());
   };
 
   return (
@@ -76,13 +143,14 @@ const Invoices = () => {
         <div className={styles.backButton}>
           <BackButton />
         </div>
+        {getOdrerDataViev}
         <Link to="/invoices/add">
-          <Button name="dodaj fakture" onClick={handleClearEdit} />
+          <Button name="dodaj nową fakture" onClick={handleClearEdit} />
         </Link>
         <form className={styles.form} onSubmit={handleSearchInvoice}>
           <input
             type="text"
-            placeholder="podaj numer faktury"
+            placeholder="szukaj FV po numerze:"
             onChange={handleSetInvoiceNo}
           />
           <button type="submit">

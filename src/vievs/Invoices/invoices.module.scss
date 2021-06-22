@@ -10,6 +10,20 @@
     text-align: center;
     font-size: $l-fs;
   }
+  .orderData {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    input {
+      @include inputViev;
+      width: 240px;
+    }
+    .downloadButton {
+      width: 40px;
+    }
+  }
 
   .selectButttons {
     display: flex;

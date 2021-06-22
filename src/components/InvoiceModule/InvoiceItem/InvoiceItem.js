@@ -118,6 +118,7 @@ const InvoiceItem = ({
         exchange,
       },
     ];
+
     dispatch(getAllClients([client]));
     dispatch(editSet(invoiceData));
     history.push("/invoices/add");

@@ -9,6 +9,7 @@ export const editReducer = (state = [initialState], action) => {
   switch (action.type) {
     case EDIT_SET:
       return [{ isEdit: action.isEdit, data: action.payload }];
+
     case EDIT_DELETE:
       return [{ isEdit: action.isEdit, data: [] }];
     default:

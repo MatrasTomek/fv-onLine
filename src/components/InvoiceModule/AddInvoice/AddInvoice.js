@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 import {
@@ -30,9 +29,12 @@ const AddInvoice = () => {
   const description = useSelector((store) => store.description);
   const isEdit = useSelector((store) => store.isEdit[0].isEdit);
   const editData = useSelector((store) => store.isEdit[0].data[0]);
-
+  const dataFromOrder = useSelector((store) => store.dataFromOrder[0].data[0]);
+  const clientFromOrder = useSelector(
+    (store) => store.dataFromOrder[0].data[1]
+  );
+  console.log(clientFromOrder);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [formModalOpen, setFormModalOpen] = useState(false);
@@ -49,7 +51,13 @@ const AddInvoice = () => {
 
   const clientViev = () => {
     if (!clients.length) {
-      return "";
+      return (
+        <>
+          <p>{!clientFromOrder ? "" : clientFromOrder.clientName}</p>
+          <p>{!clientFromOrder ? "" : clientFromOrder.clientAdress}</p>
+          <p>{!clientFromOrder ? "" : clientFromOrder.clientVatNo}</p>
+        </>
+      );
     } else
       return (
         <>
@@ -149,15 +157,6 @@ const AddInvoice = () => {
     }
   };
 
-  const getOdrerDataViev = !isEdit ? (
-    <form className={styles.orderData}>
-      <input type="text" placeholder="podaj numer zlecenia" />
-      <Button type="submit" name="pobierz dane ze zlecenia" />
-    </form>
-  ) : (
-    ""
-  );
-
   return (
     <div className={styles.wrapper}>
       <h1>
@@ -165,8 +164,6 @@ const AddInvoice = () => {
           ? "Dodawanie nowej Faktury"
           : `Edycja faktury ${editData.invoiceNo}`}
       </h1>
-
-      {getOdrerDataViev}
 
       <div className={styles.customer}>
         <h4>Nabywca:</h4>
@@ -219,7 +216,13 @@ const AddInvoice = () => {
                 <Field
                   name="dateOfSales"
                   validate={required}
-                  initialValue={isEdit ? editData.invoice.dateOfSales : ""}
+                  initialValue={
+                    isEdit
+                      ? editData.invoice.dateOfSales
+                      : !dataFromOrder
+                      ? ""
+                      : dataFromOrder.dateOfSales
+                  }
                 >
                   {({ input, meta }) => (
                     <div>
@@ -270,7 +273,11 @@ const AddInvoice = () => {
                 <Field
                   name="additionalDescription"
                   initialValue={
-                    isEdit ? editData.invoice.additionalDescription : ""
+                    isEdit
+                      ? editData.invoice.additionalDescription
+                      : !dataFromOrder
+                      ? ""
+                      : dataFromOrder.additionalDescription
                   }
                 >
                   {({ input }) => (
@@ -285,7 +292,13 @@ const AddInvoice = () => {
                 <Field
                   name="netPrice"
                   validate={required}
-                  initialValue={isEdit ? editData.invoice.netPrice : ""}
+                  initialValue={
+                    isEdit
+                      ? editData.invoice.netPrice
+                      : !dataFromOrder
+                      ? ""
+                      : dataFromOrder.netPrice
+                  }
                 >
                   {({ input, meta }) => (
                     <div>
@@ -298,7 +311,13 @@ const AddInvoice = () => {
                 <Field
                   name="quantity"
                   validate={required}
-                  initialValue={isEdit ? editData.invoice.quantity : ""}
+                  initialValue={
+                    isEdit
+                      ? editData.invoice.quantity
+                      : !dataFromOrder
+                      ? ""
+                      : dataFromOrder.quantity
+                  }
                 >
                   {({ input, meta }) => (
                     <div>
@@ -311,11 +330,17 @@ const AddInvoice = () => {
                 <Field
                   name="currency"
                   component="select"
-                  initialValue={isEdit ? editData.invoice.currency : ""}
+                  initialValue={
+                    isEdit
+                      ? editData.invoice.currency
+                      : !dataFromOrder
+                      ? ""
+                      : dataFromOrder.currency
+                  }
                 >
                   <option value={false}>wybierz walutę</option>
-                  <option value="PLN">PLN</option>
-                  <option value="EUR">EUR</option>
+                  <option value="Pln">PLN</option>
+                  <option value="Eur">EUR</option>
                 </Field>
 
                 <Field
