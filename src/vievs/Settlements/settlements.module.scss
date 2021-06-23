@@ -1,0 +1,49 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+  h1 {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: $l-fs;
+  }
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button {
+      @include smallButton;
+      width: 140px;
+      margin: 10px;
+    }
+  }
+  .client {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $fifth-color;
+    p {
+      margin: 10px auto;
+    }
+    button {
+      @include smallButton;
+      width: 100px;
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    h1 {
+      font-size: $xl-fs;
+    }
+    .search,
+    .client {
+      button {
+        width: 160px;
+      }
+      p {
+        font-size: $m-fs;
+      }
+    }
+  }
+}

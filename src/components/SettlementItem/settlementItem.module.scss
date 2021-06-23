@@ -1,0 +1,99 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+  padding: 10px;
+  border: 1px solid $first-color;
+  border-radius: $radius;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+    margin-bottom: 10px;
+  }
+  p:nth-child(1) {
+    font-weight: 700;
+  }
+  form {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    .container {
+      display: block;
+      width: 80%;
+      position: relative;
+      margin-bottom: 28px;
+      cursor: pointer;
+      font-size: 16px;
+      user-select: none;
+      text-align: center;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      .checkmark {
+        position: absolute;
+        top: 5px;
+        left: 50px;
+        height: 15px;
+        width: 15px;
+        background-color: transparent;
+        border: 2px solid $first-color;
+      }
+      // &:hover input ~ .checkmark {
+      //   background-color: $text-first;
+      // }
+      input:checked ~ .checkmark {
+        border-color: rgb(20, 156, 20);
+      }
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      input:checked ~ .checkmark:after {
+        display: block;
+      }
+      .checkmark:after {
+        left: 4px;
+        top: 0px;
+        width: 5px;
+        height: 10px;
+        border: solid rgb(20, 156, 20);
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+  @media screen and (orientation: landscape) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    form {
+      .container {
+        width: 50%;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    form {
+      .container {
+        width: 35%;
+      }
+    }
+  }
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    form {
+      .container {
+        width: 25%;
+      }
+    }
+  }
+}

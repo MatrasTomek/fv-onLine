@@ -65,8 +65,7 @@ const SettlementItem = ({ item }) => {
         {item.invoice.dateOfPayment}
       </p>
       <form>
-        <label>
-          zapłacone
+        <label className={styles.container}>
           <input
             name="isPaid"
             type="checkbox"
@@ -74,6 +73,7 @@ const SettlementItem = ({ item }) => {
             onChange={handleChangeStatus}
           />
           <span className={styles.checkmark}></span>
+          zapłacone
         </label>
       </form>
       <p>
