@@ -1,4 +1,9 @@
-import { GET_ALL_CLIENTS, EDIT_CLIENT, DELETE_CLIENT } from "../actions";
+import {
+  GET_ALL_CLIENTS,
+  EDIT_CLIENT,
+  DELETE_CLIENT,
+  CLEAR_CLEINT_STATE,
+} from "../actions";
 
 export const clientReducer = (state = [], action) => {
   switch (action.type) {
@@ -22,6 +27,8 @@ export const clientReducer = (state = [], action) => {
       });
     case DELETE_CLIENT:
       return state.filter((item) => item._id !== action.payload);
+    case CLEAR_CLEINT_STATE:
+      return (state = []);
 
     default:
       console.warn(`Nie ma akcji typu ${action.type}`);

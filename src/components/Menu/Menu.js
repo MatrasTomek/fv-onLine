@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearClentState } from "../../data/actions";
 import styles from "./menu.module.scss";
 
 const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
+  const dispatch = useDispatch();
+
   const handleOnCloseMenu = () => {
     setIsMenuOpen(false);
+    dispatch(clearClentState());
   };
   return (
     <div
@@ -25,7 +30,7 @@ const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
         <Link to="/customers" onClick={handleOnCloseMenu}>
           klienci
         </Link>
-        <Link to="/" onClick={handleOnCloseMenu}>
+        <Link to="/settlements" onClick={handleOnCloseMenu}>
           rozliczenia
         </Link>
       </div>
