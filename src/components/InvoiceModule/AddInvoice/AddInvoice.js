@@ -33,7 +33,7 @@ const AddInvoice = () => {
   const clientFromOrder = useSelector(
     (store) => store.dataFromOrder[0].data[1]
   );
-  console.log(clientFromOrder);
+
   const dispatch = useDispatch();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -122,6 +122,7 @@ const AddInvoice = () => {
       vat: values.vat,
       quantity: values.quantity,
       additionalInfo: !values.additionalInfo ? "" : values.additionalInfo,
+      isPaid: false,
     };
     invoiceArray.push(invoiceObject);
 

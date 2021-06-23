@@ -33,7 +33,7 @@ const LoggedMenu = () => {
         <Link to="/customers">
           <Button name="klienci" />
         </Link>
-        <Link to="/">
+        <Link to="/settlements">
           <Button name="rozliczenia" />
         </Link>
       </div>

@@ -1,10 +1,11 @@
 import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { MainSection, Customers, Invoices } from "../../vievs";
+import { MainSection, Customers, Invoices, Settlements } from "../../vievs";
 import { AddInvoice } from "../InvoiceModule";
 
 const MainSwitch = () => {
   const cookie = useSelector((store) => store.cookie[0].isCookie);
+  const testBase = useSelector((store) => store.testBase);
   return (
     <>
       <Switch>
@@ -13,18 +14,23 @@ const MainSwitch = () => {
         {/* <Route exact path="/instruction" render={() => <Instruction />} /> */}
         {/* <Route exact path="/contact" render={() => <Contact />} /> */}
 
-        {cookie ? (
+        {cookie || testBase ? (
           <Route exact path="/customers" render={() => <Customers />} />
         ) : (
           ""
         )}
-        {cookie ? (
+        {cookie || testBase ? (
           <Route exact path="/invoices" render={() => <Invoices />} />
         ) : (
           ""
         )}
-        {cookie ? (
+        {cookie || testBase ? (
           <Route exact path="/invoices/add" render={() => <AddInvoice />} />
+        ) : (
+          ""
+        )}
+        {cookie || testBase ? (
+          <Route exact path="/settlements" render={() => <Settlements />} />
         ) : (
           ""
         )}

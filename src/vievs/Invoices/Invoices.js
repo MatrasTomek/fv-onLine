@@ -3,13 +3,15 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addSpinner,
+  clearClentState,
   clearInvoice,
   editDel,
+  getAllClients,
   getAllInvoices,
+  orderDataDel,
+  orderDataSet,
   removeSpinner,
   timeoutShowTask,
-  orderDataSet,
-  orderDataDel,
 } from "../../data/actions";
 import request from "../../helpers/request";
 import clientRequest from "../../helpers/clientRequest";
@@ -33,7 +35,6 @@ const Invoices = () => {
     dispatch(addSpinner());
     const { data, status } = await clientRequest.get(`/orders/${orderNumber}`);
     if (status === 200) {
-      console.log(data.data);
       const invoiceData = [
         {
           additionalDescription: `Trasa: ${data.data[0].orderLoadCity} - ${data.data[0].orderUnloadCity}`,
@@ -42,13 +43,14 @@ const Invoices = () => {
           netPrice: data.data[0].orderClientPrice,
           quantity: "1",
         },
-        {
-          clientAdress: data.data[0].clientAdress,
-          clientName: data.data[0].clientName,
-          clientVatNo: data.data[0].clientVatNo,
-        },
       ];
+      const client = {
+        companyAdress: data.data[0].clientAdress,
+        companyName: data.data[0].clientName,
+        vatNo: data.data[0].clientVatNo,
+      };
       dispatch(editDel());
+      dispatch(getAllClients([client]));
       dispatch(orderDataSet(invoiceData));
       history.push("/invoices/add");
       dispatch(removeSpinner());
@@ -132,6 +134,7 @@ const Invoices = () => {
   // Open Add new Invoice page
   const handleClearEdit = () => {
     dispatch(editDel());
+    dispatch(clearClentState());
     dispatch(clearInvoice());
     dispatch(orderDataDel());
   };
