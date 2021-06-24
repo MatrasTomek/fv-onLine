@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   loginPost,
   cookieSet,
   addSpinner,
   removeSpinner,
+  removeTestBase,
 } from "../../data/actions";
 import request from "../../helpers/request";
 import { addCookie } from "../../helpers/session";
@@ -14,6 +15,8 @@ import { Modal, Button } from "../../components";
 import styles from "./loginForm.module.scss";
 
 const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
+  const testBase = useSelector((store) => store.testBase);
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [validateMessage, setValidateMessage] = useState("");
@@ -47,6 +50,7 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
       dispatch(loginPost());
       addCookie();
       resetStateOfInput();
+      dispatch(removeTestBase());
       setIsModalOpen(false);
       dispatch(removeSpinner());
     } else {
