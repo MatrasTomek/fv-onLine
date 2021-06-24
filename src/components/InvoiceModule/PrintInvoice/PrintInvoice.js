@@ -7,7 +7,7 @@ import styles from "./printInvoice.module.scss";
 const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const invoicesObj = useSelector((store) => store.invoicesObj[0]);
   const { invoiceNo, client, invoice, exchange } = invoicesObj;
-
+  const testBase = useSelector((store) => store.testBase);
   const componentRef = useRef();
 
   const [orgin, setOrgin] = useState("Oryginał");
@@ -32,7 +32,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const grossValue = netValue + vatValue;
   const exchangeRate = netValue * mid;
   const discriptionTaxForCurr =
-    currency === "PLN" ? (
+    currency === "Pln" ? (
       ""
     ) : (
       <>
@@ -62,6 +62,24 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
     setIsModalOpen(false);
   };
 
+  const seller = !testBase ? (
+    <div>
+      <p>Sprzedawca:</p>
+      <h3>ND Tomasz Matras</h3>
+      <p>32-800 Mokrzyska, Trakst Królewski 118</p>
+      <p>Nip: PL8691491653</p>
+    </div>
+  ) : (
+    <div>
+      <p> Tu pojawi sie nazwa</p>
+      <p>Twojej firmy...</p>
+      <p>...wykup program</p>
+      <a href="http://www.developerweb.pl/" target="blank">
+        www.developerweb.pl
+      </a>
+    </div>
+  );
+
   return (
     <Modal isModalOpen={isModalOpen}>
       <div className={styles.wrapper} ref={componentRef}>
@@ -79,12 +97,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
               </select>
             </form>
           </div>
-          <div>
-            <p>Sprzedawca:</p>
-            <h3>ND Tomasz Matras</h3>
-            <p>32-800 Mokrzyska, Trakst Królewski 118</p>
-            <p>Nip: PL8691491653</p>
-          </div>
+          {seller}
           <div>
             <p>Nabywca:</p>
             <h3>{companyName}</h3>
@@ -156,7 +169,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
           <div className={styles.footer}>
             <div>
               <p>Wystawił:</p>
-              <p>Tomasz Matras</p>
+              {!testBase ? <p>Tomasz Matras</p> : <p>Rick&Morty</p>}
             </div>
             <p>
               Dziękujemy za skorzystanie z Naszych usług{" "}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { editSet, getAllClients, getAllInvoices } from "../../../data/actions";
 import { Button, DeleteConfirmation, PrintInvoice } from "../../../components";
@@ -12,6 +12,8 @@ const InvoiceItem = ({
   invoiceNo = 0,
   exchange = {},
 }) => {
+  const testBase = useSelector((store) => store.testBase);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -45,7 +47,7 @@ const InvoiceItem = ({
   };
 
   const showExchangeInfo =
-    currency === "PLN" ? (
+    currency === "Pln" ? (
       ""
     ) : (
       <div className={styles.exchangeInfo}>

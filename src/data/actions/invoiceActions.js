@@ -16,6 +16,6 @@ export const deleteInvoice = (id) => ({
   type: DELETE_INVOICE,
   payload: id,
 });
-export const clearInvoice = (id) => ({
+export const clearInvoice = () => ({
   type: CLEAR_INVOICE,
 });

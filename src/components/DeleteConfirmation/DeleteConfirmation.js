@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addSpinner,
   clearClentState,
+  clearInvoice,
   deleteInvoice,
   removeSpinner,
   timeoutShowTask,
@@ -18,9 +19,9 @@ const DeleteConfirmation = ({ isModalOpen, setIsModalOpen, id }) => {
   const handleOnDelete = async () => {
     dispatch(addSpinner());
     if (testBase) {
-      localStorage.removeItem("client");
+      localStorage.removeItem("invoice");
+      dispatch(clearInvoice());
       dispatch(removeSpinner());
-      dispatch(clearClentState());
       setIsModalOpen(false);
     } else {
       try {

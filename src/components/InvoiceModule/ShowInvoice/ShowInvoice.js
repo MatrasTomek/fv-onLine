@@ -18,6 +18,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const exchange = useSelector((store) => store.exchange);
   const isEdit = useSelector((store) => store.isEdit[0].isEdit);
   const editData = useSelector((store) => store.isEdit[0].data[0]);
+  const testBase = useSelector((store) => store.testBase);
 
   const history = useHistory();
 
@@ -58,7 +59,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const exchangeRate = netValue * mid;
 
   const discriptionTaxForCurr =
-    currency === "PLN" ? (
+    currency === "Pln" ? (
       ""
     ) : (
       <p>
@@ -78,52 +79,87 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 
   const handleSaveInvoice = async () => {
     dispatch(addSpinner());
-    if (!isEdit) {
-      const invoiceNoDB = await invoiceNumber(
-        invoicesObj[0].dateOfIssue.slice(5, 7)
-      );
-
-      const date = new Date();
-      const year = date.getFullYear();
-      const invoiceNo = `${invoiceNoDB.number}/${
-        MONTHS_INFO[Number(invoiceNoDB.month) - 1]
-      }/${year}`;
-
-      const invoiceObj = {
-        invoiceNo: invoiceNo,
-        client: clients[0],
-        invoice: invoicesObj[0],
-        exchange: !exchange[0] ? { no: "0" } : exchange[0],
-      };
-
-      const { data, status } = await request.post("/invoice", invoiceObj);
-      if (status === 201) {
+    if (testBase) {
+      if (!isEdit) {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const invoiceNo = `1/${MONTHS_INFO[month]}/${year}`;
+        const invoiceObj = {
+          _id: "0.01",
+          invoiceNo: invoiceNo,
+          client: clients[0],
+          invoice: invoicesObj[0],
+          exchange: !exchange[0] ? { no: "0" } : exchange[0],
+        };
+        localStorage.setItem("invoice", JSON.stringify(invoiceObj));
+        dispatch(getAllInvoices([invoiceObj]));
         dispatch(removeSpinner());
-        dispatch(getAllInvoices([data.data]));
         dispatch(timeoutShowTask("faktura dodana"));
         history.push("/invoices");
       } else {
+        const invoiceObj = {
+          _id: editData._id,
+          invoiceNo: editData.invoiceNo,
+          client: clients[0],
+          invoice: invoicesObj[0],
+          exchange: !exchange[0] ? { no: "0" } : exchange[0],
+        };
+        localStorage.setItem("invoice", JSON.stringify(invoiceObj));
+        dispatch(getAllInvoices([invoiceObj]));
         dispatch(removeSpinner());
-        console.log(data.message);
-      }
-    } else {
-      const invoiceObj = {
-        id: editData._id,
-        invoiceNo: editData.invoiceNo,
-        client: clients[0],
-        invoice: invoicesObj[0],
-        exchange: !exchange[0] ? { no: "0" } : exchange[0],
-      };
-      const { data, status } = await request.put("/invoice", invoiceObj);
-      if (status === 202) {
-        dispatch(removeSpinner());
-        console.log(data.data);
-        dispatch(getAllInvoices([data.data]));
         dispatch(timeoutShowTask("dane faktury zmienione"));
         history.push("/invoices");
+      }
+    } else {
+      if (!isEdit) {
+        const invoiceNoDB = await invoiceNumber(
+          invoicesObj[0].dateOfIssue.slice(5, 7)
+        );
+
+        const date = new Date();
+        const year = date.getFullYear();
+        const invoiceNo = `${invoiceNoDB.number}/${
+          MONTHS_INFO[Number(invoiceNoDB.month) - 1]
+        }/${year}`;
+
+        const invoiceObj = {
+          invoiceNo: invoiceNo,
+          client: clients[0],
+          invoice: invoicesObj[0],
+          exchange: !exchange[0] ? { no: "0" } : exchange[0],
+        };
+
+        const { data, status } = await request.post("/invoice", invoiceObj);
+        if (status === 201) {
+          console.log(data.data);
+          dispatch(removeSpinner());
+          dispatch(getAllInvoices([data.data]));
+          dispatch(timeoutShowTask("faktura dodana"));
+          history.push("/invoices");
+        } else {
+          dispatch(removeSpinner());
+          console.log(data.message);
+        }
       } else {
-        dispatch(removeSpinner());
-        console.log(data.message);
+        const invoiceObj = {
+          id: editData._id,
+          invoiceNo: editData.invoiceNo,
+          client: clients[0],
+          invoice: invoicesObj[0],
+          exchange: !exchange[0] ? { no: "0" } : exchange[0],
+        };
+        const { data, status } = await request.put("/invoice", invoiceObj);
+        if (status === 202) {
+          dispatch(removeSpinner());
+
+          dispatch(getAllInvoices([data.data]));
+          dispatch(timeoutShowTask("dane faktury zmienione"));
+          history.push("/invoices");
+        } else {
+          dispatch(removeSpinner());
+          console.log(data.message);
+        }
       }
     }
   };

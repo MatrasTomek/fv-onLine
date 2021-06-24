@@ -245,6 +245,10 @@
   }
 }
 @media print {
+  html,
+  body {
+    height: 99%;
+  }
   .wrapper {
     .sidesOfContract {
       flex-direction: row;

@@ -15,13 +15,35 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-
+    position: relative;
     input {
       @include inputViev;
       width: 240px;
     }
     .downloadButton {
       width: 40px;
+      &:disabled {
+        background-color: $second-color;
+        cursor: default;
+        &:hover ~ .info {
+          display: block;
+        }
+      }
+    }
+    .info {
+      position: absolute;
+      top: 50%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 60px;
+      padding: 5px;
+      text-align: center;
+      background-color: $second-color;
+      border: 1px solid $third-color;
+      color: $fifth-color;
+      border-radius: $radius;
+      display: none;
     }
   }
 
@@ -47,12 +69,35 @@
       }
     }
     .form {
+      position: relative;
       input {
         @include inputViev;
         width: 160px;
       }
       button {
         width: 40px;
+        &:disabled {
+          background-color: $second-color;
+          cursor: default;
+          &:hover ~ .info {
+            display: block;
+          }
+        }
+      }
+      .info {
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 60px;
+        padding: 5px;
+        text-align: center;
+        background-color: $second-color;
+        border: 1px solid $third-color;
+        color: $fifth-color;
+        border-radius: $radius;
+        display: none;
       }
     }
   }

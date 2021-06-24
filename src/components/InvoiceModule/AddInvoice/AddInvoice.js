@@ -33,7 +33,7 @@ const AddInvoice = () => {
   const clientFromOrder = useSelector(
     (store) => store.dataFromOrder[0].data[1]
   );
-
+  const testBase = useSelector((store) => store.testBase);
   const dispatch = useDispatch();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -46,7 +46,18 @@ const AddInvoice = () => {
     setFormModalOpen(true);
   };
   const handleSearchModalOpen = () => {
-    setSearchModalOpen(true);
+    if (testBase) {
+      if (localStorage.getItem("client") === null) {
+        dispatch(timeoutShowTask("w Twojej bazei nie ma żadnych klientów"));
+        dispatch(removeSpinner());
+      } else {
+        const retrievedObject = JSON.parse(localStorage.getItem("client"));
+        dispatch(getAllClients([retrievedObject]));
+        dispatch(removeSpinner());
+      }
+    } else {
+      setSearchModalOpen(true);
+    }
   };
 
   const clientViev = () => {
@@ -126,7 +137,7 @@ const AddInvoice = () => {
     };
     invoiceArray.push(invoiceObject);
 
-    if (values.currency === "PLN") {
+    if (values.currency === "Pln") {
       dispatch(getAllInvoices(invoiceArray));
       dispatch(removeSpinner());
       setCheckModalOpen(true);
@@ -172,7 +183,13 @@ const AddInvoice = () => {
         <div className={styles.buttons}>
           <Button name="dodaj klienta" onClick={handleFromModalOpen} />
           <Button
-            name={!clients.length ? "pobierz klienta" : "zmień klienta"}
+            name={
+              !clients.length
+                ? "pobierz klienta"
+                : testBase
+                ? "pobierz klienta"
+                : "zmień klienta"
+            }
             onClick={handleSearchModalOpen}
           />
         </div>

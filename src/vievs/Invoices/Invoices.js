@@ -20,6 +20,7 @@ import styles from "./invoices.module.scss";
 
 const Invoices = () => {
   const invoicesObj = useSelector((store) => store.invoicesObj);
+  const testBase = useSelector((store) => store.testBase);
   const dispatch = useDispatch();
   const history = useHistory();
   // Set data from order (DB for OrderOnLine)
@@ -67,8 +68,13 @@ const Invoices = () => {
         placeholder="pobierz dane ze zlecenie numer:"
         value={orderNumber}
         onChange={handleSetOrderNumber}
+        disabled={!testBase ? false : true}
       />
-      <button className={styles.downloadButton} type="submit">
+      <button
+        className={styles.downloadButton}
+        type="submit"
+        disabled={!testBase ? false : true}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -80,6 +86,9 @@ const Invoices = () => {
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" />
         </svg>
       </button>
+      <div className={styles.info}>
+        <p>ta opcja działa z modułem zleceń: zlecenia onLine</p>
+      </div>
     </form>
   );
 
@@ -106,13 +115,24 @@ const Invoices = () => {
   // Geat all Invoices from DB or refresh DB
   const handleGetAllInvoices = async () => {
     dispatch(addSpinner());
-    const { data, status } = await request.get("/invoice");
-    if (status === 200) {
-      dispatch(removeSpinner());
-      dispatch(getAllInvoices(data.data));
+    if (testBase) {
+      if (localStorage.getItem("invoice") === null) {
+        dispatch(timeoutShowTask("w Twojej bazei nie ma żadnych faktur"));
+        dispatch(removeSpinner());
+      } else {
+        const retrievedObject = JSON.parse(localStorage.getItem("invoice"));
+        dispatch(getAllInvoices([retrievedObject]));
+        dispatch(removeSpinner());
+      }
     } else {
-      dispatch(removeSpinner());
-      console.log(data.message);
+      const { data, status } = await request.get("/invoice");
+      if (status === 200) {
+        dispatch(removeSpinner());
+        dispatch(getAllInvoices(data.data));
+      } else {
+        dispatch(removeSpinner());
+        console.log(data.message);
+      }
     }
   };
 
@@ -155,8 +175,9 @@ const Invoices = () => {
             type="text"
             placeholder="szukaj FV po numerze:"
             onChange={handleSetInvoiceNo}
+            disabled={!testBase ? false : true}
           />
-          <button type="submit">
+          <button type="submit" disabled={!testBase ? false : true}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"
@@ -167,6 +188,9 @@ const Invoices = () => {
               <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
           </button>
+          <div className={styles.info}>
+            <p>opcja dostępna po zalogowaniu</p>
+          </div>
         </form>
 
         <Button
