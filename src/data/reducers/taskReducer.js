@@ -13,7 +13,7 @@ export const taskReducer = (state = [initialState], action) => {
       return [{ isModalOpen: action.isModalOpen, task: "" }];
 
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

@@ -13,7 +13,7 @@ export const editReducer = (state = [initialState], action) => {
     case EDIT_DELETE:
       return [{ isEdit: action.isEdit, data: [] }];
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

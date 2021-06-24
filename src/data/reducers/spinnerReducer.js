@@ -10,7 +10,7 @@ export const spinnerReducer = (state = spinnerActive, action) => {
       return (state = action.spinnerActive);
 
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

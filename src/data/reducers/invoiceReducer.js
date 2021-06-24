@@ -47,7 +47,8 @@ export const invoiceReducer = (state = initialState, action) => {
     case CLEAR_INVOICE:
       return initialState;
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
+
       return state;
   }
 };

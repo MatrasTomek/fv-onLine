@@ -11,7 +11,7 @@ export const loginReducer = (state = [initialState], action) => {
     case LOGIN_DEL:
       return [{ isLogin: action.isLogin }];
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

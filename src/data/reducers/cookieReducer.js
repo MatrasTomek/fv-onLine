@@ -11,7 +11,7 @@ export const cookieReducer = (state = [initialState], action) => {
     case COOKIE_DELETE:
       return [{ isCookie: action.isCookie }];
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

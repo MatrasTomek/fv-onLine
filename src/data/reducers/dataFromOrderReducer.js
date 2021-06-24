@@ -11,7 +11,7 @@ export const dataFromOrder = (state = [initialState], action) => {
     case ORDER_DATA_DEL:
       return (state = [initialState]);
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

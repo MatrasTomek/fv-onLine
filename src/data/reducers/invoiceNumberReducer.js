@@ -9,7 +9,7 @@ export const invoiceNumberReducer = (state = [], action) => {
     //   return [...state, action.payload];
 
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };

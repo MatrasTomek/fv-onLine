@@ -10,7 +10,7 @@ export const testBaseChange = (state = testBase, action) => {
       return (state = testBase);
 
     default:
-      console.warn(`Nie ma akcji typu ${action.type}`);
+      // console.warn(`Nie ma akcji typu ${action.type}`);
       return state;
   }
 };
