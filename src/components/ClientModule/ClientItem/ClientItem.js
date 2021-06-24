@@ -1,14 +1,14 @@
 import { useState } from "react";
-
 import { AddClientForm, Button, DeleteConfirmation } from "../../../components";
 import styles from "./clientItem.module.scss";
 
 const ClientItem = ({ client }) => {
   const { companyAdress, companyName, eMail, vatNo, _id, info } = client;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
-  const handleOnEdit = async () => {
+  const handleOnEdit = () => {
     setIsModalOpen(true);
   };
 

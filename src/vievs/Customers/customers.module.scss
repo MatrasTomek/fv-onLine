@@ -20,6 +20,11 @@
       @include smallButton;
       width: 160px;
       margin: 10px;
+      &:disabled {
+        background-color: $second-color;
+        color: $first-color;
+        cursor: default;
+      }
     }
     button:nth-child(1) {
       background-color: transparent;

@@ -1,8 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addSpinner,
-  removeSpinner,
+  clearClentState,
   deleteInvoice,
+  removeSpinner,
   timeoutShowTask,
 } from "../../data/actions";
 import request from "../../helpers/request";
@@ -11,21 +12,28 @@ import { Button, Modal } from "..";
 import styles from "./deleteConfirmation.module.scss";
 
 const DeleteConfirmation = ({ isModalOpen, setIsModalOpen, id }) => {
+  const testBase = useSelector((store) => store.testBase);
   const dispatch = useDispatch();
 
   const handleOnDelete = async () => {
     dispatch(addSpinner());
-    try {
-      const { status } = await request.delete(`/invoice/${id}`);
-
-      if (status === 200) {
-        dispatch(deleteInvoice(id));
-        dispatch(removeSpinner());
-        dispatch(timeoutShowTask("Usunięto fakturę"));
-      }
-    } catch (error) {
+    if (testBase) {
+      localStorage.removeItem("client");
       dispatch(removeSpinner());
-      console.warn("cos nie tak");
+      dispatch(clearClentState());
+      setIsModalOpen(false);
+    } else {
+      try {
+        const { status } = await request.delete(`/invoice/${id}`);
+        if (status === 200) {
+          dispatch(deleteInvoice(id));
+          dispatch(removeSpinner());
+          dispatch(timeoutShowTask("Usunięto fakturę"));
+        }
+      } catch (error) {
+        dispatch(removeSpinner());
+        console.warn("cos nie tak");
+      }
     }
   };
 

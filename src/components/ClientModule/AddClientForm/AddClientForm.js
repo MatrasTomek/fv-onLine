@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Field } from "react-final-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getAllClients,
   editClient,
@@ -16,6 +16,8 @@ import styles from "./addClientForm.module.scss";
 const required = (value) => (value ? undefined : "Pole wymagane");
 
 const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
+  const testBase = useSelector((store) => store.testBase);
+
   const dispatch = useDispatch();
 
   const { companyAdress, companyName, eMail, vatNo, _id, info } = client;
@@ -30,6 +32,7 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
   };
   const onSubmit = async (values) => {
     dispatch(addSpinner());
+
     if (!client) {
       const clientObject = {
         companyName: values.companyName,
@@ -38,23 +41,33 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         eMail: values.eMail,
         info: !values.info ? "" : values.info,
       };
-      const { data, status } = await clientRequest.post(
-        "/clients",
-        clientObject
-      );
-      if (status === 201) {
+      if (testBase) {
+        localStorage.setItem("client", JSON.stringify(clientObject));
         handleOnClose();
         resetStateOfInput();
-        dispatch(getAllClients([data.data]));
+        dispatch(getAllClients([clientObject]));
         dispatch(removeSpinner());
         setIsModalOpen(false);
         dispatch(timeoutShowTask("Klient dodany"));
-      } else if (status === 409) {
-        dispatch(removeSpinner());
-        setValidateMessage(data.message);
       } else {
-        dispatch(removeSpinner());
-        console.log(data.message);
+        const { data, status } = await clientRequest.post(
+          "/clients",
+          clientObject
+        );
+        if (status === 201) {
+          handleOnClose();
+          resetStateOfInput();
+          dispatch(getAllClients([data.data]));
+          dispatch(removeSpinner());
+          setIsModalOpen(false);
+          dispatch(timeoutShowTask("Klient dodany"));
+        } else if (status === 409) {
+          dispatch(removeSpinner());
+          setValidateMessage(data.message);
+        } else {
+          dispatch(removeSpinner());
+          console.log(data.message);
+        }
       }
     } else if (client) {
       const clientObject = {
@@ -68,18 +81,37 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         info: !values.info ? info : values.info,
       };
 
-      const { data, status } = await clientRequest.put(
-        "/clients",
-        clientObject
-      );
-      if (status === 202) {
-        dispatch(editClient(data.data));
-        setIsModalOpen(false);
+      if (testBase) {
+        const clientObjectLocal = {
+          companyName: !values.companyName ? companyName : values.companyName,
+          companyAdress: !values.companyAdress
+            ? companyAdress
+            : values.companyAdress,
+          vatNo: !values.vatNo ? vatNo : values.vatNo,
+          eMail: !values.eMail ? eMail : values.eMail,
+          info: !values.info ? info : values.info,
+        };
+        localStorage.setItem("client", JSON.stringify(clientObjectLocal));
+        handleOnClose();
+        resetStateOfInput();
+        dispatch(getAllClients([clientObjectLocal]));
         dispatch(removeSpinner());
+        setIsModalOpen(false);
         dispatch(timeoutShowTask("Dane klienta zmienione"));
       } else {
-        console.log(data.message, status);
-        dispatch(removeSpinner());
+        const { data, status } = await clientRequest.put(
+          "/clients",
+          clientObject
+        );
+        if (status === 202) {
+          dispatch(editClient(data.data));
+          setIsModalOpen(false);
+          dispatch(removeSpinner());
+          dispatch(timeoutShowTask("Dane klienta zmienione"));
+        } else {
+          console.log(data.message, status);
+          dispatch(removeSpinner());
+        }
       }
     }
   };

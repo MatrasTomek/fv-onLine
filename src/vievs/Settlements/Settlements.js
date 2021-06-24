@@ -76,7 +76,7 @@ const Settlements = () => {
       <div className={styles.search}>
         <Button
           type="button"
-          name={!client ? "pobierz klienta" : "zmień klienta"}
+          name={!client[0] ? "pobierz klienta" : "zmień klienta"}
           onClick={handleSearchModalOpen}
         />
       </div>

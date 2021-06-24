@@ -1,7 +1,12 @@
 import { useState } from "react";
 import clientRequest from "../../helpers/clientRequest";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllClients, addSpinner, removeSpinner } from "../../data/actions/";
+import {
+  getAllClients,
+  addSpinner,
+  removeSpinner,
+  timeoutShowTask,
+} from "../../data/actions/";
 
 import {
   AddClientForm,
@@ -14,6 +19,8 @@ import {
 import styles from "./customers.module.scss";
 
 const Customers = () => {
+  const testBase = useSelector((store) => store.testBase);
+
   const dispatch = useDispatch();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -28,20 +35,31 @@ const Customers = () => {
 
   const handleGetAllClients = async () => {
     dispatch(addSpinner());
-    const { data, status } = await clientRequest.get("/clients");
-
-    if (status === 200) {
-      dispatch(getAllClients(data.data));
-      dispatch(removeSpinner());
+    if (testBase) {
+      if (localStorage.getItem("client") === null) {
+        dispatch(timeoutShowTask("w Twojej bazei nie ma żadnych klientów"));
+        dispatch(removeSpinner());
+      } else {
+        const retrievedObject = JSON.parse(localStorage.getItem("client"));
+        dispatch(getAllClients([retrievedObject]));
+        dispatch(removeSpinner());
+      }
     } else {
-      console.log(data.message);
+      const { data, status } = await clientRequest.get("/clients");
+
+      if (status === 200) {
+        dispatch(getAllClients(data.data));
+        dispatch(removeSpinner());
+      } else {
+        console.log(data.message);
+      }
     }
   };
 
   const clients = useSelector((store) => store.clients);
 
   const allClientsViev = clients.map((client) => (
-    <ClientItem key={client._id} client={client} />
+    <ClientItem key={Math.random() * 0.234} client={client} />
   ));
 
   return (
@@ -54,7 +72,12 @@ const Customers = () => {
           isModalOpen={formModalOpen}
           setIsModalOpen={setFormModalOpen}
         />
-        <Button name="szukaj kontrahenta" onClick={handleSearchModalOpen} />
+        <Button
+          name="szukaj kontrahenta"
+          onClick={handleSearchModalOpen}
+          type="button"
+          disabled={!testBase ? false : true}
+        />
         <SearchModal
           isModalOpen={searchModalOpen}
           setIsModalOpen={setSearchModalOpen}
