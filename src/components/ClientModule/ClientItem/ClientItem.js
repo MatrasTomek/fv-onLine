@@ -7,13 +7,15 @@ const ClientItem = ({ client }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(false);
 
   const handleOnEdit = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteConfirmation = () => {
+  const handleDeleteConfirmation = (e) => {
     setIsConfirmationOpen(true);
+    setDeleteItem(e.target.id);
   };
 
   return (
@@ -38,7 +40,11 @@ const ClientItem = ({ client }) => {
 
       <div className={styles.buttons}>
         <Button name="edytuj" onClick={handleOnEdit} />
-        <Button name="usuń" onClick={handleDeleteConfirmation} />
+        <Button
+          name="usuń"
+          onClick={handleDeleteConfirmation}
+          id="clientToDel"
+        />
       </div>
       <AddClientForm
         client={client}
@@ -49,6 +55,7 @@ const ClientItem = ({ client }) => {
         isModalOpen={isConfirmationOpen}
         setIsModalOpen={setIsConfirmationOpen}
         id={_id}
+        deleteItem={deleteItem}
       />
     </div>
   );

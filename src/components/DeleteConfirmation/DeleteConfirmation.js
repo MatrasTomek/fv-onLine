@@ -12,17 +12,29 @@ import request from "../../helpers/request";
 import { Button, Modal } from "..";
 import styles from "./deleteConfirmation.module.scss";
 
-const DeleteConfirmation = ({ isModalOpen, setIsModalOpen, id }) => {
+const DeleteConfirmation = ({
+  isModalOpen,
+  setIsModalOpen,
+  id,
+  deleteItem,
+}) => {
   const testBase = useSelector((store) => store.testBase);
   const dispatch = useDispatch();
 
   const handleOnDelete = async () => {
     dispatch(addSpinner());
     if (testBase) {
-      localStorage.removeItem("invoice");
-      dispatch(clearInvoice());
-      dispatch(removeSpinner());
-      setIsModalOpen(false);
+      if (deleteItem === "clientToDel") {
+        localStorage.removeItem("client");
+        dispatch(clearClentState());
+        dispatch(removeSpinner());
+        setIsModalOpen(false);
+      } else {
+        localStorage.removeItem("invoice");
+        dispatch(clearInvoice());
+        dispatch(removeSpinner());
+        setIsModalOpen(false);
+      }
     } else {
       try {
         const { status } = await request.delete(`/invoice/${id}`);

@@ -99,6 +99,7 @@
           }
         }
         .buttons {
+          position: relative;
           display: flex;
           flex-direction: row;
           justify-content: space-around;
@@ -120,7 +121,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 200px;
             height: 60px;
             padding: 5px;
