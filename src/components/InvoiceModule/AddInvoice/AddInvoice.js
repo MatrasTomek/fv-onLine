@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 import {
@@ -85,14 +85,15 @@ const AddInvoice = () => {
     setDataFrom(e.target.id);
   };
 
-  const handleRefreshDescribction = async (event) => {
-    event.preventDefault();
-    dispatch(addSpinner());
+  useEffect(() => {
+    handleRefreshDescribction();
+  }, [!description.length]);
 
+  const handleRefreshDescribction = async () => {
+    dispatch(addSpinner());
     const { data, status } = await request.get("/describe");
     if (status === 200) {
       dispatch(getDescribe(data.data));
-
       dispatch(removeSpinner());
     } else {
       dispatch(removeSpinner());
@@ -280,13 +281,11 @@ const AddInvoice = () => {
                     name="dodaj usułgę"
                     id="description"
                     onClick={handleOpenAddDescribction}
+                    disabled={testBase ? true : false}
                   />
-                  <Button
-                    type="button"
-                    name="odśwież listę"
-                    id="description"
-                    onClick={handleRefreshDescribction}
-                  />
+                  <div className={styles.infoDisabled}>
+                    <p>opcja dostępna po zalogowaniu</p>
+                  </div>
                 </div>
                 <Field
                   name="additionalDescription"

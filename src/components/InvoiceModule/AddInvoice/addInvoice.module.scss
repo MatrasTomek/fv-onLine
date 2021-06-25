@@ -107,6 +107,29 @@
           button {
             @include smallButton;
             width: 120px;
+            &:disabled {
+              background-color: $first-color;
+              color: $basic-color;
+              cursor: default;
+              &:hover ~ .infoDisabled {
+                display: block;
+              }
+            }
+          }
+          .infoDisabled {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 60px;
+            padding: 5px;
+            text-align: center;
+            background-color: $second-color;
+            border: 1px solid $third-color;
+            color: $fifth-color;
+            border-radius: $radius;
+            display: none;
           }
         }
 
