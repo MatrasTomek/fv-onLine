@@ -341,7 +341,7 @@
       width: 50%;
     }
     .customer {
-      width: 60%;
+      width: 48%;
     }
     .invoice {
       width: 95%;
@@ -388,9 +388,6 @@
     }
   }
   @media screen and (min-width: map-get($breakpoints, x-large)) {
-    .customer {
-      width: 50%;
-    }
     .invoice {
       width: 80%;
     }

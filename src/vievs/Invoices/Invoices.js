@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addDealer,
   addSpinner,
   clearClentState,
   clearInvoice,
@@ -121,7 +122,9 @@ const Invoices = () => {
         dispatch(removeSpinner());
       } else {
         const retrievedObject = JSON.parse(localStorage.getItem("invoice"));
+        const dealerObject = JSON.parse(localStorage.getItem("dealer"));
         dispatch(getAllInvoices([retrievedObject]));
+        dispatch(addDealer([dealerObject]));
         dispatch(removeSpinner());
       }
     } else {

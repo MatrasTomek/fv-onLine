@@ -10,3 +10,4 @@ export * from "./invoiceNumberActions";
 export * from "./editAction";
 export * from "./testBaseActions";
 export * from "./dataFromOrderActions";
+export * from "./dealerActions";

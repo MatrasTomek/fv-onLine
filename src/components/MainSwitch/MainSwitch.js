@@ -1,7 +1,15 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { MainSection, Customers, Invoices, Settlements } from "../../vievs";
-import { AddInvoice } from "../InvoiceModule";
+import {
+  MainSection,
+  Customers,
+  Invoices,
+  Settlements,
+  Rodo,
+  Instruction,
+  Contact,
+} from "../../vievs";
+import { AddInvoice, PrintInvoice } from "../../components";
 
 const MainSwitch = () => {
   const cookie = useSelector((store) => store.cookie[0].isCookie);
@@ -10,9 +18,6 @@ const MainSwitch = () => {
     <>
       <Switch>
         <Route exact path="/" render={() => <MainSection />} />
-        {/* <Route exact path="/rodo" render={() => <Rodo />} /> */}
-        {/* <Route exact path="/instruction" render={() => <Instruction />} /> */}
-        {/* <Route exact path="/contact" render={() => <Contact />} /> */}
 
         {cookie || testBase ? (
           <Route exact path="/customers" render={() => <Customers />} />
@@ -30,13 +35,20 @@ const MainSwitch = () => {
           ""
         )}
         {cookie || testBase ? (
+          <Route exact path="/invoices/print" render={() => <PrintInvoice />} />
+        ) : (
+          ""
+        )}
+        {cookie || testBase ? (
           <Route exact path="/settlements" render={() => <Settlements />} />
         ) : (
           ""
         )}
 
-        {/* <Route exact path="/order-print" render={() => <OrderPrintViev />} /> */}
-        {/* <Route exact path="/orders" render={() => <Orders />} /> */}
+        <Route exact path="/rodo" render={() => <Rodo />} />
+        <Route exact path="/instruction" render={() => <Instruction />} />
+        <Route exact path="/contact" render={() => <Contact />} />
+        <Redirect to="/" />
       </Switch>
     </>
   );

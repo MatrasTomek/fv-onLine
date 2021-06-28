@@ -12,6 +12,7 @@ import { invoiceNumberReducer } from "./invoiceNumberReducer";
 import { editReducer } from "./editReducer";
 import { testBaseChange } from "./testBaseReducer";
 import { dataFromOrder } from "./dataFromOrderReducer";
+import { dealerReducer } from "./dealerReducer";
 
 export const rootReducer = combineReducers({
   login: loginReducer,
@@ -26,4 +27,5 @@ export const rootReducer = combineReducers({
   isEdit: editReducer,
   testBase: testBaseChange,
   dataFromOrder: dataFromOrder,
+  dealerData: dealerReducer,
 });

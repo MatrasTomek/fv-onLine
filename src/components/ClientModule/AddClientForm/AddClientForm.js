@@ -7,6 +7,7 @@ import {
   addSpinner,
   removeSpinner,
   timeoutShowTask,
+  addDealer,
 } from "../../../data/actions";
 import clientRequest from "../../../helpers/clientRequest";
 
@@ -15,7 +16,13 @@ import styles from "./addClientForm.module.scss";
 
 const required = (value) => (value ? undefined : "Pole wymagane");
 
-const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
+const AddClientForm = ({
+  isModalOpen,
+  setIsModalOpen,
+  client = "",
+  dealer = false,
+}) => {
+  console.log(dealer);
   const testBase = useSelector((store) => store.testBase);
 
   const dispatch = useDispatch();
@@ -40,15 +47,28 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
         vatNo: values.vatNo,
         eMail: values.eMail,
         info: !values.info ? "" : values.info,
+        accountNo: !values.accountNo ? "" : values.accountNo,
+        swiftIban: !values.swiftIban ? "" : values.swiftIban,
+        bankName: !values.bankName ? "" : values.bankName,
       };
       if (testBase) {
-        localStorage.setItem("client", JSON.stringify(clientObject));
-        handleOnClose();
-        resetStateOfInput();
-        dispatch(getAllClients([clientObject]));
-        dispatch(removeSpinner());
-        setIsModalOpen(false);
-        dispatch(timeoutShowTask("Klient dodany"));
+        if ((dealer = "dealer")) {
+          localStorage.setItem("dealer", JSON.stringify(clientObject));
+          handleOnClose();
+          resetStateOfInput();
+          dispatch(addDealer([clientObject]));
+          dispatch(removeSpinner());
+          setIsModalOpen(false);
+          dispatch(timeoutShowTask("Sprzedawca dodany"));
+        } else {
+          localStorage.setItem("client", JSON.stringify(clientObject));
+          handleOnClose();
+          resetStateOfInput();
+          dispatch(getAllClients([clientObject]));
+          dispatch(removeSpinner());
+          setIsModalOpen(false);
+          dispatch(timeoutShowTask("Klient dodany"));
+        }
       } else {
         const { data, status } = await clientRequest.post(
           "/clients",
@@ -125,7 +145,9 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
       <div className={styles.wrapper}>
         <h3>
           {!client
-            ? "Dodawanie nowego kontrahenta"
+            ? !dealer
+              ? "Dodawanie nowego kontrahenta"
+              : "Dodawanie sprzedawcy"
             : `Edycja kontrahenta: ${companyName}`}
         </h3>
         <div>{clientExist}</div>
@@ -206,6 +228,51 @@ const AddClientForm = ({ isModalOpen, setIsModalOpen, client = "" }) => {
                     placeholder={!client ? "info" : `${client.info}`}
                   />
                 </div>
+                {!testBase ? (
+                  ""
+                ) : (
+                  <Field name="accountNo">
+                    {({ input, meta }) => (
+                      <div className={styles.name}>
+                        <input
+                          {...input}
+                          type="number"
+                          placeholder="numer konta"
+                        />
+                      </div>
+                    )}
+                  </Field>
+                )}
+                {!testBase ? (
+                  ""
+                ) : (
+                  <Field name="bankName">
+                    {({ input, meta }) => (
+                      <div className={styles.name}>
+                        <input
+                          {...input}
+                          type="text"
+                          placeholder="Nazwa banku"
+                        />
+                      </div>
+                    )}
+                  </Field>
+                )}
+                {!testBase ? (
+                  ""
+                ) : (
+                  <Field name="swiftIban">
+                    {({ input, meta }) => (
+                      <div className={styles.name}>
+                        <input
+                          {...input}
+                          type="text"
+                          placeholder="SWIFT / IBAN"
+                        />
+                      </div>
+                    )}
+                  </Field>
+                )}
               </div>
               <div className={styles.buttons}>
                 <Button type="submit" disabled={submitting} name="zapisz" />

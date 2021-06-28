@@ -9,6 +9,7 @@ import {
   timeoutShowTask,
   getExchange,
   getDescribe,
+  addDealer,
 } from "../../../data/actions";
 import request from "../../../helpers/request";
 
@@ -34,6 +35,7 @@ const AddInvoice = () => {
     (store) => store.dataFromOrder[0].data[1]
   );
   const testBase = useSelector((store) => store.testBase);
+  const dealerData = useSelector((store) => store.dealerData);
   const dispatch = useDispatch();
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -41,9 +43,16 @@ const AddInvoice = () => {
   const [addDescribeModalOpen, setAddDescribeModalOpen] = useState(false);
   const [checkModalOpen, setCheckModalOpen] = useState(false);
   const [dataFrom, setDataFrom] = useState(false);
+  const [dealerModalOpen, setDealerModalOpen] = useState(false);
+  const [addDealerId, setAddDealerId] = useState(false);
 
   const handleFromModalOpen = () => {
     setFormModalOpen(true);
+  };
+
+  const handleDealerModalOpen = (e) => {
+    setDealerModalOpen(true);
+    setAddDealerId(e.target.id);
   };
   const handleSearchModalOpen = () => {
     if (testBase) {
@@ -58,6 +67,24 @@ const AddInvoice = () => {
     } else {
       setSearchModalOpen(true);
     }
+  };
+  const dealerViev = () => {
+    if (!dealerData.length) {
+      return "";
+    } else {
+      return (
+        <>
+          <p>{dealerData[0].companyName}</p>
+          <p>{dealerData[0].companyAdress}</p>
+          <p>{dealerData[0].vatNo}</p>
+        </>
+      );
+    }
+  };
+
+  const handleGetDealer = () => {
+    const retrievedObject = JSON.parse(localStorage.getItem("dealer"));
+    dispatch(addDealer([retrievedObject]));
   };
 
   const clientViev = () => {
@@ -124,6 +151,7 @@ const AddInvoice = () => {
       dateOfIssue: values.dateOfIssue,
       dateOfSales: values.dateOfSales,
       dateOfPayment: values.dateOfPayment,
+      kindOfPayment: values.kindOfPayment,
       description: values.description,
       additionalDescription: !values.additionalDescription
         ? ""
@@ -170,6 +198,28 @@ const AddInvoice = () => {
     }
   };
 
+  const dealer = !testBase ? (
+    ""
+  ) : (
+    <div className={styles.customer}>
+      <h4>Sprzedawca:</h4>
+      <div className={styles.clientItem}>{dealerViev()}</div>
+      <div className={styles.buttons}>
+        <Button
+          name={!dealerData ? "dodaj sprzedawcę" : "zmień sprzedawcę"}
+          id="dealer"
+          onClick={handleDealerModalOpen}
+        />
+        <Button name="pobierz sprzedawcę" onClick={handleGetDealer} />
+      </div>
+      <AddClientForm
+        isModalOpen={dealerModalOpen}
+        setIsModalOpen={setDealerModalOpen}
+        dealer={addDealerId}
+      />
+    </div>
+  );
+
   return (
     <div className={styles.wrapper}>
       <h1>
@@ -177,7 +227,7 @@ const AddInvoice = () => {
           ? "Dodawanie nowej Faktury"
           : `Edycja faktury ${editData.invoiceNo}`}
       </h1>
-
+      {dealer}
       <div className={styles.customer}>
         <h4>Nabywca:</h4>
         <div className={styles.clientItem}>{clientViev()}</div>
@@ -264,7 +314,20 @@ const AddInvoice = () => {
                     </div>
                   )}
                 </Field>
+
+                <Field
+                  name="kindOfPayment"
+                  component="select"
+                  initialValue={
+                    isEdit ? editData.invoice.kindOfPayment : "przelew"
+                  }
+                >
+                  <option value="przelew">przelew</option>
+                  <option value="płatność kartą">płatność kartą</option>
+                  <option value="płatność gotówką">płatność gotówką</option>
+                </Field>
               </div>
+
               <div className={styles.info}>
                 <Field
                   name="description"

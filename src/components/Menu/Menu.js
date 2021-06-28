@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearClentState } from "../../data/actions";
 import styles from "./menu.module.scss";
 
 const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
+  const testBase = useSelector((store) => store.testBase);
   const dispatch = useDispatch();
 
   const handleOnCloseMenu = () => {
@@ -21,6 +22,9 @@ const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
         X
       </div>
       <div className={styles.inside}>
+        <Link to="/" onClick={handleOnCloseMenu}>
+          start
+        </Link>
         <Link to="/invoices" onClick={handleOnCloseMenu}>
           faktury
         </Link>
@@ -30,9 +34,13 @@ const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
         <Link to="/customers" onClick={handleOnCloseMenu}>
           klienci
         </Link>
-        <Link to="/settlements" onClick={handleOnCloseMenu}>
-          rozliczenia
-        </Link>
+        {testBase ? (
+          ""
+        ) : (
+          <Link to="/settlements" onClick={handleOnCloseMenu}>
+            rozliczenia
+          </Link>
+        )}
       </div>
     </div>
   );
