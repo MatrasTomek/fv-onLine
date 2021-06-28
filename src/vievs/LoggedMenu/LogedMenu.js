@@ -1,14 +1,22 @@
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addSpinner, removeSpinner, getDescribe } from "../../data/actions";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addSpinner,
+  removeSpinner,
+  getDescribe,
+  removeTestBase,
+} from "../../data/actions";
 import request from "../../helpers/request";
 
 import { Button } from "../../components";
 import styles from "./loggedMenu.module.scss";
 
 const LoggedMenu = () => {
+  const testBase = useSelector((store) => store.testBase);
+
   const dispatch = useDispatch();
 
+  const history = useHistory();
   const handleGetData = async () => {
     dispatch(addSpinner());
 
@@ -24,9 +32,19 @@ const LoggedMenu = () => {
     }
   };
 
+  const handleGoOnStart = () => {
+    dispatch(removeTestBase());
+    history.push("./");
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.buttons}>
+        {testBase ? (
+          <Button type="button" name="wstecz" onClick={handleGoOnStart} />
+        ) : (
+          ""
+        )}
         <Link to="/invoices">
           <Button name="faktury" onClick={handleGetData} />
         </Link>
@@ -34,7 +52,10 @@ const LoggedMenu = () => {
           <Button name="klienci" />
         </Link>
         <Link to="/settlements">
-          <Button name="rozliczenia" />
+          <Button name="rozliczenia" disabled={testBase ? true : false} />
+          <div className={styles.infoButton}>
+            <p>opcja dostępna po zalogowaniu</p>
+          </div>
         </Link>
       </div>
     </div>

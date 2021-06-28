@@ -29,6 +29,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
     dateOfIssue,
     dateOfSales,
     dateOfPayment,
+    kindOfPayment,
     description,
     additionalDescription,
     netPrice,
@@ -180,6 +181,10 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
             <div>
               <p>termin płatności:</p>
               <p>{dateOfPayment}</p>
+            </div>
+            <div>
+              <p>forma płatności:</p>
+              <p>{kindOfPayment}</p>
             </div>
             <div>
               <p>Opis:</p>

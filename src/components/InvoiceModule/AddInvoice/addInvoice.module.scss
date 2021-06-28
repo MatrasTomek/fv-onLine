@@ -76,6 +76,16 @@
             color: $text-warring-color;
           }
         }
+        select {
+          @include inputViev;
+          width: 80%;
+          margin: 10px auto;
+          option {
+            background-color: $second-color;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: $xs-fs/1.1;
+          }
+        }
       }
       .info {
         width: 100%;
@@ -277,6 +287,12 @@
             }
             span {
               font-weight: 700;
+            }
+          }
+          select {
+            width: 70%;
+            option {
+              font-size: $s-fs;
             }
           }
         }

@@ -39,7 +39,7 @@ const WelcomeSite = () => {
             <Link to={"/contact"}>kliknij tutaj</Link>
           </li>
           <li>
-            Chcesz mnie wesprzeć? Opublikuj opinie na temat aplikacji{" "}
+            Chcesz mnie wesprzeć? Opublikuj opinie na temat aplikacji w{" "}
             <a target="blank" href="https://goo.gl/maps/Bz1SxDYVLoFyK6Qz5">
               {" "}
               google

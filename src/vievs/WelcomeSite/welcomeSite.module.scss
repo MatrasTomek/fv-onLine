@@ -13,6 +13,11 @@
     li {
       font-size: $xs-fs;
       margin: 15px auto;
+      a {
+        text-decoration: none;
+        color: $fifth-color;
+        font-weight: 700;
+      }
     }
     li:nth-last-child(2) {
       font-weight: 700;

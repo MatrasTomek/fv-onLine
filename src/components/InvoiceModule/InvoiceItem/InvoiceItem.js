@@ -27,13 +27,12 @@ const InvoiceItem = ({
     dateOfIssue,
     dateOfPayment,
     dateOfSales,
+    kindOfPayment,
     description,
     netPrice,
     quantity,
     vat,
   } = invoice;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const netValue = Number(netPrice) * quantity;
   const vatValue = (netValue * vat) / 1000;
@@ -67,6 +66,10 @@ const InvoiceItem = ({
     ""
   ) : (
     <div className={styles.additionalInfo}>
+      <div>
+        <p>forma płatności</p>
+        <p>{kindOfPayment}</p>
+      </div>
       <div>
         <p>data wystawienia</p>
         <p>{dateOfIssue}</p>
@@ -136,8 +139,7 @@ const InvoiceItem = ({
       },
     ];
     dispatch(getAllInvoices(invoiceData));
-    // history.push("/invoices/print");
-    setIsModalOpen(true);
+    history.push("/invoices/print");
   };
 
   const handleDeleteConfirmation = () => {
@@ -185,7 +187,7 @@ const InvoiceItem = ({
         setIsModalOpen={setIsConfirmationOpen}
         id={id}
       />
-      <PrintInvoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      {/* <PrintInvoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} /> */}
     </div>
   );
 };
