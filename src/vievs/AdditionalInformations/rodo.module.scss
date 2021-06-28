@@ -1,0 +1,30 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+  h1 {
+    margin: 20px auto;
+    text-align: center;
+    font-size: $m-fs;
+  }
+  h3 {
+    margin: 10px auto;
+    font-size: $s-fs;
+  }
+  p {
+    font-size: $xs-fs;
+  }
+  .button {
+    margin: 20px;
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    h1 {
+      font-size: $xl-fs;
+    }
+    h3 {
+      font-size: $l-fs;
+    }
+    p {
+      font-size: $m-fs;
+    }
+  }
+}

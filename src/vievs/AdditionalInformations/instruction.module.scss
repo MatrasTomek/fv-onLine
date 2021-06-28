@@ -1,0 +1,44 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+  margin-bottom: 20px;
+  h1 {
+    text-align: center;
+    font-size: $m-fs * 1.1;
+  }
+  ul {
+    margin: 30px auto;
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 20px auto;
+      p,
+      button,
+      a {
+        margin-left: 5px;
+        font-size: $xs-fs;
+      }
+    }
+  }
+  ul :nth-child(2) {
+    font-weight: 700;
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    margin-bottom: 0;
+    h1 {
+      font-size: $xl-fs;
+    }
+    ul {
+      margin: 50px auto;
+      li {
+        p,
+        button,
+        a {
+          margin-left: 10px;
+          font-size: $l-fs;
+        }
+      }
+    }
+  }
+}

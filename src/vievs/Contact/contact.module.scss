@@ -1,0 +1,84 @@
+@import "../../Styles/common.scss";
+.wrapper {
+  @include wrapper;
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 0;
+    border: 1px solid $fifth-color;
+    border-radius: 5px;
+  }
+  .formItem {
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 240px;
+    input {
+      border: none;
+      border-bottom: 2px solid $fifth-color;
+    }
+  }
+  .agreed {
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 240px;
+    input {
+      border: 2px solid $fifth-color;
+      width: 25px;
+      height: 25px;
+    }
+
+    a {
+      margin-left: 10px;
+    }
+  }
+  .formButton {
+    margin: 20px auto;
+  }
+  .confirmation {
+    margin: 20px auto;
+    text-align: center;
+    font-weight: 700;
+  }
+  .backButton {
+    margin: 20px;
+  }
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    form {
+      width: 500px;
+      margin: 20px auto;
+      .formItem {
+        width: 340px;
+        label,
+        input {
+          font-size: $l-fs;
+        }
+      }
+      .agreed {
+        width: 340px;
+        input {
+          width: 35px;
+          height: 35px;
+        }
+
+        a,
+        label {
+          font-size: $l-fs;
+        }
+      }
+      .formButton {
+        button {
+          font-size: $m-fs;
+        }
+      }
+
+      .confirmation {
+        font-size: $l-fs;
+      }
+    }
+  }
+}
