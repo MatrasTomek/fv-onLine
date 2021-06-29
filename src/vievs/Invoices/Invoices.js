@@ -66,7 +66,7 @@ const Invoices = () => {
     <form className={styles.orderData} onSubmit={handleGetOrderData}>
       <input
         type="text"
-        placeholder="pobierz dane ze zlecenie numer:"
+        placeholder="pobierz dane ze zlecenia numer:"
         value={orderNumber}
         onChange={handleSetOrderNumber}
         disabled={!testBase ? false : true}
@@ -118,7 +118,7 @@ const Invoices = () => {
     dispatch(addSpinner());
     if (testBase) {
       if (localStorage.getItem("invoice") === null) {
-        dispatch(timeoutShowTask("w Twojej bazei nie ma żadnych faktur"));
+        dispatch(timeoutShowTask("w Twojej bazie nie ma żadnych faktur"));
         dispatch(removeSpinner());
       } else {
         const retrievedObject = JSON.parse(localStorage.getItem("invoice"));

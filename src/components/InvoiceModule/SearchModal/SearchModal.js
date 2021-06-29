@@ -123,7 +123,6 @@ const SearchModal = ({ isModalOpen, setIsModalOpen }) => {
           </div>
         </form>
       </div>
-      {/* <div className={styles.spinnerWrapper}>{spinner}</div> */}
     </Modal>
   );
 };

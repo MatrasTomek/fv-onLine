@@ -13,18 +13,18 @@ const WelcomeSite = () => {
           </li>
 
           <li>
-            Testując aplikację nie masz upawnień do niektórych oznaczoncy w
-            aplikacji funkcji, ale nie ponosisz tez żadnych kosztów z tytułu
+            Testując aplikację nie masz uprawnień do niektórych oznaczonch w
+            aplikacji funkcji, ale nie ponosisz też żadnych kosztów z tytułu
             użytkowania.
           </li>
           <li>
-            W module testowym nie jestś połączony z bazą danych, wykorzystywana
-            jest pamięć Twojej przegladarki i pliki cookie. Żadne dane nie są od
+            W module testowym nie jesteś połączony z bazą danych, wykorzystywana
+            jest pamięć Twojej przeglądarki i pliki cookie. Żadne dane nie są od
             Ciebie pobierane, wysyłane i przechowywane.
           </li>
           <li>
-            Pełna wersja może być zintegrowana z dowolą bazą danych, lub
-            posiadać wałsny CRM.
+            Pełna wersja może być zintegrowana z dowolną bazą danych, lub
+            posiadać wałasny CRM.
           </li>
           <li>
             Zapoznaj się z zasadami{" "}
@@ -39,7 +39,7 @@ const WelcomeSite = () => {
             Chcesz mnie wesprzeć? Opublikuj opinie na temat aplikacji w{" "}
             <a target="blank" href="https://goo.gl/maps/Bz1SxDYVLoFyK6Qz5">
               {" "}
-              google
+              Google
             </a>
           </li>
         </ul>

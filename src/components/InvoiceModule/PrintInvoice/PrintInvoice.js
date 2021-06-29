@@ -172,7 +172,7 @@ const PrintInvoice = () => {
             </p>
           </div>
           <div>
-            <p>warość brutto: </p>
+            <p>wartość brutto: </p>
             <p>
               {grossValue.toFixed(2)} {currency}
             </p>

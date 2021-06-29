@@ -86,7 +86,7 @@ const SettlementItem = ({ item }) => {
         {item.invoice.vat}%
       </p>
       <p>
-        wartosć brutto: {""}
+        wartość brutto: {""}
         {grossValue} {item.invoice.currency}
       </p>
     </div>

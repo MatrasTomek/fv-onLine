@@ -47,7 +47,7 @@ const Contact = () => {
           <input
             type="checkbox"
             name="confirmation"
-            value="Akceptuję politykę RODO, chce otrzymać informację na temat faktury onLine"
+            value="Akceptuję politykę RODO, chce otrzymać informację na temat aplikacji faktury onLine"
             required
           />
           <label>

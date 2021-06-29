@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addSpinner,
-  removeSpinner,
-  getAllInvoices,
-  timeoutShowTask,
-} from "../../data/actions";
+import { addSpinner, removeSpinner, timeoutShowTask } from "../../data/actions";
 import request from "../../helpers/request";
 import { Button, SearchModal, SettlementItem } from "../../components";
 import styles from "./settlements.module.scss";

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 import {
@@ -8,10 +8,8 @@ import {
   getAllInvoices,
   timeoutShowTask,
   getExchange,
-  getDescribe,
   addDealer,
 } from "../../../data/actions";
-import request from "../../../helpers/request";
 
 import {
   AddClientForm,
@@ -85,7 +83,7 @@ const AddInvoice = () => {
   const handleGetDealer = () => {
     dispatch(addSpinner());
     if (localStorage.getItem("dealer") === null) {
-      dispatch(timeoutShowTask("w Twojej bazei nie ma ustawionego sprzedawcy"));
+      dispatch(timeoutShowTask("w Twojej bazie nie ma ustawionego sprzedawcy"));
       dispatch(removeSpinner());
     } else {
       const retrievedObject = JSON.parse(localStorage.getItem("dealer"));
@@ -116,22 +114,6 @@ const AddInvoice = () => {
     e.preventDefault();
     setAddDescribeModalOpen(true);
     setDataFrom(e.target.id);
-  };
-
-  useEffect(() => {
-    handleRefreshDescribction();
-  }, [!description.length]);
-
-  const handleRefreshDescribction = async () => {
-    dispatch(addSpinner());
-    const { data, status } = await request.get("/describe");
-    if (status === 200) {
-      dispatch(getDescribe(data.data));
-      dispatch(removeSpinner());
-    } else {
-      dispatch(removeSpinner());
-      console.log(data.message);
-    }
   };
 
   const decsriptionOptions = !description.length

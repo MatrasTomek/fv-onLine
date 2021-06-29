@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { editSet, getAllClients, getAllInvoices } from "../../../data/actions";
-import { Button, DeleteConfirmation, PrintInvoice } from "../../../components";
+import { Button, DeleteConfirmation } from "../../../components";
 import styles from "./invoiceItem.module.scss";
 
 const InvoiceItem = ({
@@ -12,8 +12,6 @@ const InvoiceItem = ({
   invoiceNo = 0,
   exchange = {},
 }) => {
-  const testBase = useSelector((store) => store.testBase);
-
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,7 +21,6 @@ const InvoiceItem = ({
     additionalDescription,
     additionalInfo,
     currency,
-    dateOfExchange,
     dateOfIssue,
     dateOfPayment,
     dateOfSales,
@@ -89,7 +86,7 @@ const InvoiceItem = ({
         <p>{quantity}</p>
       </div>
       <div>
-        <p>wartosć netto</p>
+        <p>wartość netto</p>
         <p>
           {netValue.toFixed(2)} {currency}
         </p>

@@ -52,6 +52,8 @@ const invoiceNumber = async (issueMonth) => {
   } else {
     console.log(data.message);
   }
+
+  return newInvoiceNumber;
 };
 
 export default invoiceNumber;

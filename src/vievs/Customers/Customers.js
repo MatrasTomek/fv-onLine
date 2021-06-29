@@ -37,7 +37,7 @@ const Customers = () => {
     dispatch(addSpinner());
     if (testBase) {
       if (localStorage.getItem("client") === null) {
-        dispatch(timeoutShowTask("w Twojej bazei nie ma żadnych klientów"));
+        dispatch(timeoutShowTask("w Twojej bazie nie ma żadnych klientów"));
         dispatch(removeSpinner());
       } else {
         const retrievedObject = JSON.parse(localStorage.getItem("client"));

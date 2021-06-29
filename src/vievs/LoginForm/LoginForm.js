@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   loginPost,
@@ -15,8 +15,6 @@ import { Modal, Button } from "../../components";
 import styles from "./loginForm.module.scss";
 
 const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
-  const testBase = useSelector((store) => store.testBase);
-
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [validateMessage, setValidateMessage] = useState("");

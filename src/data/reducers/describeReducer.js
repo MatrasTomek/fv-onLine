@@ -1,4 +1,4 @@
-import { GET_DESCRIBE, ADD_DESCRIBE } from "../actions";
+import { GET_DESCRIBE } from "../actions";
 
 export const describeReducer = (state = [], action) => {
   switch (action.type) {
