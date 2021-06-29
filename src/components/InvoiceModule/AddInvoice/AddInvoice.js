@@ -83,10 +83,16 @@ const AddInvoice = () => {
   };
 
   const handleGetDealer = () => {
-    const retrievedObject = JSON.parse(localStorage.getItem("dealer"));
-    dispatch(addDealer([retrievedObject]));
+    dispatch(addSpinner());
+    if (localStorage.getItem("dealer") === null) {
+      dispatch(timeoutShowTask("w Twojej bazei nie ma ustawionego sprzedawcy"));
+      dispatch(removeSpinner());
+    } else {
+      const retrievedObject = JSON.parse(localStorage.getItem("dealer"));
+      dispatch(addDealer([retrievedObject]));
+      dispatch(removeSpinner());
+    }
   };
-
   const clientViev = () => {
     if (!clients.length) {
       return (
@@ -206,7 +212,7 @@ const AddInvoice = () => {
       <div className={styles.clientItem}>{dealerViev()}</div>
       <div className={styles.buttons}>
         <Button
-          name={!dealerData ? "dodaj sprzedawcę" : "zmień sprzedawcę"}
+          name={!dealerData.length ? "dodaj sprzedawcę" : "zmień sprzedawcę"}
           id="dealer"
           onClick={handleDealerModalOpen}
         />
