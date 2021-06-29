@@ -34,10 +34,16 @@
 
     a {
       margin-left: 10px;
+      text-decoration: none;
+      color: $fifth-color;
+      font-weight: 700;
     }
   }
   .formButton {
     margin: 20px auto;
+    button {
+      @include smallButton;
+    }
   }
   .confirmation {
     margin: 20px auto;

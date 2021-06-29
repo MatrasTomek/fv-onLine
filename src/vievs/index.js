@@ -5,4 +5,4 @@ export { default as Invoices } from "./Invoices";
 export { default as LoginForm } from "./LoginForm";
 export { default as MainSection } from "./MainSection";
 export { default as Settlements } from "./Settlements";
-export { Rodo, Instruction } from "./AdditionalInformations";
+export { Rodo } from "./AdditionalInformations";

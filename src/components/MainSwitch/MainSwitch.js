@@ -6,7 +6,6 @@ import {
   Invoices,
   Settlements,
   Rodo,
-  Instruction,
   Contact,
 } from "../../vievs";
 import { AddInvoice, PrintInvoice } from "../../components";
@@ -46,7 +45,6 @@ const MainSwitch = () => {
         )}
 
         <Route exact path="/rodo" render={() => <Rodo />} />
-        <Route exact path="/instruction" render={() => <Instruction />} />
         <Route exact path="/contact" render={() => <Contact />} />
         <Redirect to="/" />
       </Switch>

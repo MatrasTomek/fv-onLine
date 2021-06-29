@@ -30,10 +30,7 @@ const WelcomeSite = () => {
             Zapoznaj się z zasadami{" "}
             <Link to={"/rodo"}>RODO i polityką Cookies</Link>
           </li>
-          <li>
-            Instrukja użytkowania znajduje się{" "}
-            <Link to={"/instruction"}>tutaj</Link>
-          </li>
+
           <li>
             Jesteś zainteresowany pełną wersją?{" "}
             <Link to={"/contact"}>kliknij tutaj</Link>
