@@ -22,7 +22,6 @@ const LoggedMenu = () => {
 
     const { data, status } = await request.get("/describe");
     if (status === 200) {
-      console.log(data.data);
       dispatch(getDescribe(data.data));
 
       dispatch(removeSpinner());

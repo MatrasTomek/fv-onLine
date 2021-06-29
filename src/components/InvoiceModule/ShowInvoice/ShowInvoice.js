@@ -85,7 +85,23 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
-        const invoiceNo = `1/${MONTHS_INFO[month]}/${year}`;
+        let invoiceNo;
+        if (localStorage.getItem("invoiceNo") === null) {
+          const localInvoiveNo = {
+            invoiceNo: "1",
+          };
+          localStorage.setItem("invoiceNo", JSON.stringify(localInvoiveNo));
+          invoiceNo = `1/${MONTHS_INFO[month]}/${year}`;
+        } else {
+          const localInvoiveNo = JSON.parse(localStorage.getItem("invoiceNo"));
+          const newInvoiceNo = Number(localInvoiveNo.invoiceNo) + 1;
+          invoiceNo = `${newInvoiceNo}/${MONTHS_INFO[month]}/${year}`;
+          const setLocalNewInvoiceNumer = newInvoiceNo.toString();
+          const newLocalInvoiveNo = {
+            invoiceNo: setLocalNewInvoiceNumer,
+          };
+          localStorage.setItem("invoiceNo", JSON.stringify(newLocalInvoiveNo));
+        }
         const invoiceObj = {
           _id: "0.01",
           invoiceNo: invoiceNo,

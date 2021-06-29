@@ -22,7 +22,6 @@ const AddClientForm = ({
   client = "",
   dealer = false,
 }) => {
-  console.log(dealer);
   const testBase = useSelector((store) => store.testBase);
 
   const dispatch = useDispatch();
@@ -52,7 +51,7 @@ const AddClientForm = ({
         bankName: !values.bankName ? "" : values.bankName,
       };
       if (testBase) {
-        if ((dealer = "dealer")) {
+        if (dealer === "dealer") {
           localStorage.setItem("dealer", JSON.stringify(clientObject));
           handleOnClose();
           resetStateOfInput();
@@ -228,7 +227,7 @@ const AddClientForm = ({
                     placeholder={!client ? "info" : `${client.info}`}
                   />
                 </div>
-                {!testBase ? (
+                {!dealer ? (
                   ""
                 ) : (
                   <Field name="accountNo">
@@ -243,7 +242,7 @@ const AddClientForm = ({
                     )}
                   </Field>
                 )}
-                {!testBase ? (
+                {!dealer ? (
                   ""
                 ) : (
                   <Field name="bankName">
@@ -258,7 +257,7 @@ const AddClientForm = ({
                     )}
                   </Field>
                 )}
-                {!testBase ? (
+                {!dealer ? (
                   ""
                 ) : (
                   <Field name="swiftIban">
