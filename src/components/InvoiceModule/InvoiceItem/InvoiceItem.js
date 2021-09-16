@@ -32,7 +32,7 @@ const InvoiceItem = ({
   } = invoice;
 
   const netValue = Number(netPrice) * quantity;
-  const vatValue = (netValue * vat) / 1000;
+  const vatValue = (netValue * Number(vat)) / 100;
   const grossValue = netValue + vatValue;
 
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);

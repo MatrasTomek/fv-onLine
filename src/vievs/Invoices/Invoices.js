@@ -113,7 +113,7 @@ const Invoices = () => {
     }
   };
 
-  // Geat all Invoices from DB or refresh DB
+  // Get all Invoices from DB or refresh DB
   const handleGetAllInvoices = async () => {
     dispatch(addSpinner());
     if (testBase) {
