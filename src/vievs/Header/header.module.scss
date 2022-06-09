@@ -1,4 +1,5 @@
 @import "../../Styles/common.scss";
+
 .wrapper {
   position: relative;
   width: 100%;
@@ -10,20 +11,26 @@
   align-items: center;
   flex-wrap: wrap;
 
+
   .options {
     flex-basis: 80%;
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+
     button {
       @include mediumButton;
     }
   }
+
   @media screen and (min-width: map-get($breakpoints, large)) {
+
+
     .options {
       flex-basis: 50%;
     }
   }
+
   @media screen and (min-width: map-get($breakpoints, x-large)) {
     .options {
       flex-basis: 30%;
