@@ -102,37 +102,9 @@ const Invoices = () => {
 			const data1 = [];
 			data1.push(data);
 
-<<<<<<< HEAD
 			dispatch(getAllInvoices(data1));
 		}
 	};
-=======
-  // Get all Invoices from DB or refresh DB
-  const handleGetAllInvoices = async () => {
-    dispatch(addSpinner());
-    if (testBase) {
-      if (localStorage.getItem("invoice") === null) {
-        dispatch(timeoutShowTask("w Twojej bazie nie ma żadnych faktur"));
-        dispatch(removeSpinner());
-      } else {
-        const retrievedObject = JSON.parse(localStorage.getItem("invoice"));
-        const dealerObject = JSON.parse(localStorage.getItem("dealer"));
-        dispatch(getAllInvoices([retrievedObject]));
-        dispatch(addDealer([dealerObject]));
-        dispatch(removeSpinner());
-      }
-    } else {
-      const { data, status } = await request.get("/invoice");
-      if (status === 200) {
-        dispatch(removeSpinner());
-        dispatch(getAllInvoices(data.data));
-      } else {
-        dispatch(removeSpinner());
-        console.log(data.message);
-      }
-    }
-  };
->>>>>>> 726a0884c5d884559fdc032384bd4a1fed379afb
 
 	// Geat all Invoices from DB or refresh DB
 	const handleGetAllInvoices = async () => {
@@ -158,7 +130,7 @@ const Invoices = () => {
 			}
 		}
 	};
-	console.log(invoicesObj);
+
 	// Invoices viev
 	const invoivesViev = !invoicesObj.length
 		? ""
