@@ -1,64 +1,54 @@
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addSpinner,
-  removeSpinner,
-  getDescribe,
-  removeTestBase,
-} from "../../data/actions";
+import { addSpinner, removeSpinner, getDescribe, removeTestBase } from "../../data/actions";
 import request from "../../helpers/request";
 
 import { Button } from "../../components";
 import styles from "./loggedMenu.module.scss";
 
 const LoggedMenu = () => {
-  const testBase = useSelector((store) => store.testBase);
+	const testBase = useSelector((store) => store.testBase);
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const history = useHistory();
-  const handleGetData = async () => {
-    dispatch(addSpinner());
+	const history = useHistory();
+	const handleGetData = async () => {
+		// dispatch(addSpinner());
 
-    const { data, status } = await request.get("/describe");
-    if (status === 200) {
-      dispatch(getDescribe(data.data));
+		const { data } = await request.get("/describe");
 
-      dispatch(removeSpinner());
-    } else {
-      dispatch(removeSpinner());
-      console.log(data.message);
-    }
-  };
+		if (data) {
+			dispatch(getDescribe(data));
+			dispatch(removeSpinner());
+		} else {
+			dispatch(removeSpinner());
+		}
+	};
 
-  const handleGoOnStart = () => {
-    dispatch(removeTestBase());
-    history.push("./");
-  };
+	const handleGoOnStart = () => {
+		dispatch(removeTestBase());
+		history.push("./");
+	};
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.buttons}>
-        {testBase ? (
-          <Button type="button" name="wstecz" onClick={handleGoOnStart} />
-        ) : (
-          ""
-        )}
-        <Link to="/invoices">
-          <Button name="faktury" onClick={handleGetData} />
-        </Link>
-        <Link to="/customers">
-          <Button name="klienci" />
-        </Link>
-        <Link to="/settlements">
-          <Button name="rozliczenia" disabled={testBase ? true : false} />
-          <div className={styles.infoButton}>
-            <p>opcja dostępna po zalogowaniu</p>
-          </div>
-        </Link>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.wrapper}>
+			<div className={styles.buttons}>
+				{testBase ? <Button type="button" name="wstecz" onClick={handleGoOnStart} /> : ""}
+				<Link to="/invoices">
+					<Button name="faktury" onClick={handleGetData} />
+				</Link>
+				<Link to="/customers">
+					<Button name="klienci" />
+				</Link>
+				<Link to="/settlements">
+					<Button name="rozliczenia" disabled={testBase ? true : false} />
+					<div className={styles.infoButton}>
+						<p>opcja dostępna po zalogowaniu</p>
+					</div>
+				</Link>
+			</div>
+		</div>
+	);
 };
 
 export default LoggedMenu;

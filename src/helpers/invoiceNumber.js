@@ -1,59 +1,47 @@
 import request from "./request";
 
 const invoiceNumber = async (issueMonth) => {
-  const month = issueMonth;
-  let number;
-  let _id;
+	const month = issueMonth;
+	let number;
+	let _id;
+	let newInvoiceNo = {};
 
-  let newInvoiceNumber = {};
+	const setNumber = async () => {
+		const { data } = await request.put("/invoice-number", {
+			month,
+			number,
+			_id,
+		});
 
-  const setNumber = async () => {
-    const { data, status } = await request.put("/invoiceNumber", {
-      month,
-      number,
-      _id,
-    });
-    if (status === 202) {
-      return (newInvoiceNumber = {
-        month: data.data.month,
-        number: data.data.number,
-      });
-    } else {
-      console.log(data.message);
-    }
-  };
+		if (data.isSucces === true) {
+			return;
+		} else {
+			return console.log(data.info);
+		}
+	};
 
-  const setNewMonth = async () => {
-    const { data, status } = await request.post("/invoiceNumber", {
-      month,
-      number,
-    });
-    if (status === 201) {
-      return (newInvoiceNumber = {
-        month: data.data.month,
-        number: data.data.number,
-      });
-    } else {
-      console.log(data.message);
-    }
-  };
-
-  const { data, status } = await request.get("/invoiceNumber");
-  if (status === 200) {
-    const isMonthSet = data.data.find((item) => item.month === month);
-    if (isMonthSet) {
-      _id = isMonthSet._id;
-      number = isMonthSet.number + 1;
-      return setNumber();
-    } else if (!isMonthSet) {
-      number = 1;
-      return setNewMonth();
-    }
-  } else {
-    console.log(data.message);
-  }
-
-  return newInvoiceNumber;
+	const { data } = await request.get("/invoice-number");
+	if (data) {
+		if (Number(data[0].month) === Number(month)) {
+			number = data[0].number + 1;
+			_id = data[0]._id;
+			setNumber();
+			return (newInvoiceNo = {
+				month: month,
+				number: number,
+			});
+		} else {
+			number = 1;
+			_id = data[0]._id;
+			setNumber();
+			return (newInvoiceNo = {
+				month: month,
+				number: number,
+			});
+		}
+	} else {
+		return console.log(data.info);
+	}
 };
 
 export default invoiceNumber;
