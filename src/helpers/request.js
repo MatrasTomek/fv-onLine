@@ -2,8 +2,7 @@ import axios from "axios";
 
 export const request = axios.create({
 	// baseURL: "https://invoice-nest.herokuapp.com/",
-	baseURL: "http//localhost:3000",
-	// baseURL: "http://localhost:8080",
+	baseURL: "http://localhost:8080",
 
 	validateStatus: false,
 });
