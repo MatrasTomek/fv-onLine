@@ -122,9 +122,10 @@ const Invoices = () => {
 			}
 		} else {
 			const { data, status } = await request.get("/invoice");
+			console.log(data);
 			if (data) {
 				dispatch(removeSpinner());
-				dispatch(getAllInvoices(data));
+				dispatch(getAllInvoices(data.data));
 			} else {
 				dispatch(removeSpinner());
 			}

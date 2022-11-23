@@ -38,7 +38,7 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
 			password: password,
 		});
 
-		if (data.isSucces === true) {
+		if (data.user) {
 			dispatch(cookieSet());
 			dispatch(loginPost());
 			addCookie();
@@ -47,7 +47,7 @@ const LoginForm = ({ isModalOpen, setIsModalOpen }) => {
 			setIsModalOpen(false);
 			dispatch(removeSpinner());
 		} else {
-			setValidateMessage(data.info);
+			setValidateMessage(data.message);
 			dispatch(removeSpinner());
 		}
 	};
