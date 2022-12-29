@@ -22,9 +22,9 @@ const invoiceNumber = async (issueMonth) => {
 
 	const { data } = await request.get("/invoice-number");
 	if (data) {
-		if (Number(data[0].month) === Number(month)) {
-			number = data[0].number + 1;
-			_id = data[0]._id;
+		if (Number(data.data[0].month) === Number(month)) {
+			number = data.data[0].number + 1;
+			_id = data.data[0]._id;
 			setNumber();
 			return (newInvoiceNo = {
 				month: month,
@@ -32,7 +32,7 @@ const invoiceNumber = async (issueMonth) => {
 			});
 		} else {
 			number = 1;
-			_id = data[0]._id;
+			_id = data.data[0]._id;
 			setNumber();
 			return (newInvoiceNo = {
 				month: month,

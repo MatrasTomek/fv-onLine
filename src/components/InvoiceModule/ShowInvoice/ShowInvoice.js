@@ -138,6 +138,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 				};
 
 				const { data } = await request.post("/invoice", invoiceObj);
+
 				if (data) {
 					dispatch(removeSpinner());
 					dispatch(getAllInvoices([data]));

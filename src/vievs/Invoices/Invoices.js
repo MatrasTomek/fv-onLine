@@ -32,6 +32,8 @@ const Invoices = () => {
 		setOrderNumber(e.target.value);
 	};
 
+	console.log("inv-obj", invoicesObj);
+
 	const handleGetOrderData = async (e) => {
 		e.preventDefault();
 		dispatch(addSpinner());
@@ -122,7 +124,7 @@ const Invoices = () => {
 			}
 		} else {
 			const { data, status } = await request.get("/invoice");
-			console.log(data);
+
 			if (data) {
 				dispatch(removeSpinner());
 				dispatch(getAllInvoices(data.data));
