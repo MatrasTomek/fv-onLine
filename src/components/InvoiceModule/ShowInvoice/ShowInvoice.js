@@ -141,7 +141,7 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 
 				if (data) {
 					dispatch(removeSpinner());
-					dispatch(getAllInvoices([data]));
+					dispatch(getAllInvoices([data.data]));
 					dispatch(timeoutShowTask("faktura dodana"));
 					history.push("/invoices");
 				} else {
@@ -157,9 +157,9 @@ const ShowInvoice = ({ isModalOpen, setIsModalOpen }) => {
 					exchange: !exchange[0] ? { no: "0" } : exchange[0],
 				};
 				const { data, status } = await request.put("/invoice", invoiceObj);
+
 				if (status === 202) {
 					dispatch(removeSpinner());
-
 					dispatch(getAllInvoices([data.data]));
 					dispatch(timeoutShowTask("dane faktury zmienione"));
 					history.push("/invoices");

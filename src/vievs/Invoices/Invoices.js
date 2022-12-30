@@ -21,6 +21,7 @@ import styles from "./invoices.module.scss";
 
 const Invoices = () => {
 	const invoicesObj = useSelector((store) => store.invoicesObj);
+
 	const testBase = useSelector((store) => store.testBase);
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -31,8 +32,6 @@ const Invoices = () => {
 		e.preventDefault();
 		setOrderNumber(e.target.value);
 	};
-
-	console.log("inv-obj", invoicesObj);
 
 	const handleGetOrderData = async (e) => {
 		e.preventDefault();
